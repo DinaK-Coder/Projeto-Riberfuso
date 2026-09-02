@@ -1,3 +1,7 @@
+import { buildCatalogUrl } from "@/lib/catalog-url";
+
+export type ShortcutGroup = "fixacao" | "ferramentas" | "materiais";
+
 export type CatalogShortcut = {
   /** Texto exibido no chip (descrição amigável) */
   description: string;
@@ -9,7 +13,33 @@ export type CatalogShortcut = {
   searchAnyOf?: string[];
   /** Descrições a ignorar (ex.: escovas com "cabo" = cabo da escova) */
   excludePattern?: RegExp;
+  /** Agrupamento na vitrine da Home */
+  group: ShortcutGroup;
+  /** Destaque na seção "Mais buscados" */
+  featured?: boolean;
 };
+
+export const SHORTCUT_GROUPS: {
+  id: ShortcutGroup;
+  label: string;
+  description: string;
+}[] = [
+  {
+    id: "fixacao",
+    label: "Fixação",
+    description: "Parafusos, porcas e brocantes para todo tipo de montagem.",
+  },
+  {
+    id: "ferramentas",
+    label: "Ferramentas manuais",
+    description: "Chaves, soquetes, allen e acessórios de aperto.",
+  },
+  {
+    id: "materiais",
+    label: "Materiais e ferragens",
+    description: "Inox, zincado, cabos de aço e barras rosqueadas.",
+  },
+];
 
 /**
  * Atalhos: o usuário vê a descrição no chip e a abreviação vai para o campo de busca.
@@ -19,85 +49,115 @@ export const CATALOG_SHORTCUTS: CatalogShortcut[] = [
     description: "Parafusos sextavados",
     abbreviation: "PARAF SEXT",
     searchTerms: "PARAF SEXT",
+    group: "fixacao",
+    featured: true,
   },
   {
     description: "Porcas sextavadas",
     abbreviation: "Porca sext",
     searchTerms: "PORCA SEXT",
+    group: "fixacao",
   },
   {
     description: "Porcas autotravantes",
     abbreviation: "Porca Auto",
     searchTerms: "PORCA TRAV",
+    group: "fixacao",
   },
   {
     description: "Produtos e parafusos allen",
     abbreviation: "ALLEN",
     searchTerms: "ALLEN",
+    group: "ferramentas",
   },
   {
     description: "Chaves combinadas",
     abbreviation: "COMB",
     searchTerms: "CHAVE COMB",
+    group: "ferramentas",
+    featured: true,
   },
   {
     description: "Chaves fixas",
     abbreviation: "FIXA",
     searchTerms: "CHAVE FIXA",
+    group: "ferramentas",
   },
   {
     description: "Chaves estrela",
     abbreviation: "Estrela",
     searchTerms: "CHAVE ESTRELA",
+    group: "ferramentas",
   },
   {
     description: "Parafusos francês",
     abbreviation: "Francês",
     searchTerms: "PARAF FRANC",
+    group: "fixacao",
   },
   {
     description: "Materiais zincados",
     abbreviation: "ZN",
     searchTerms: "ZN",
+    group: "materiais",
   },
   {
     description: "Materiais em inox",
     abbreviation: "INOX",
     searchTerms: "INOX",
+    group: "materiais",
+    featured: true,
   },
   {
     description: "Cabo de aço",
     abbreviation: "CABO DE ACO",
     searchTerms: "CABO ACO",
     excludePattern: /^escova/i,
+    group: "materiais",
+    featured: true,
   },
   {
     description: "Barras rosqueadas",
     abbreviation: "BARRA ROSQ",
     searchTerms: "BARRA ROSQ",
+    group: "materiais",
   },
   {
     description: "Parafusos Fixer",
     abbreviation: "FIXER",
     searchTerms: "FIXER",
+    group: "fixacao",
   },
   {
     description: "Brocantes sextavados e atarraxantes ponta broca",
     abbreviation: "PONTA BROCA",
     searchTerms: "BROCANTE",
     searchAnyOf: ["BROCANTE", "PT BROCA"],
+    group: "fixacao",
   },
   {
     description: "Chaves Torx",
     abbreviation: "CHAVE TORX",
     searchTerms: "CHAVE TORX",
+    group: "ferramentas",
   },
   {
     description: "Soquetes",
     abbreviation: "SOQUETE",
     searchTerms: "SOQUETE",
+    group: "ferramentas",
   },
 ];
+
+export function buildShortcutCatalogUrl(shortcut: CatalogShortcut): string {
+  return buildCatalogUrl({ q: shortcut.abbreviation });
+}
+
+export const FEATURED_SHORTCUTS = CATALOG_SHORTCUTS.filter((item) => item.featured);
+
+export function shortcutsByGroup(group: ShortcutGroup): CatalogShortcut[] {
+  return CATALOG_SHORTCUTS.filter((item) => item.group === group);
+}
 
 export type ResolvedDescriptionSearch = {
   terms: string;

@@ -3,15 +3,17 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { categories } from "@/lib/categories";
+import {
+  FEATURED_SHORTCUTS,
+  SHORTCUT_GROUPS,
+  shortcutsByGroup,
+} from "@/lib/catalog-shortcuts";
 import { buildCatalogUrl } from "@/lib/catalog-url";
 import { prefersReducedMotion } from "@/lib/prefers-motion";
 import { CatalogSearchCTA } from "./CatalogSearchCTA";
-import { ProductBentoCard } from "./ProductBentoCard";
+import { ShortcutCard } from "./ShortcutCard";
 
 gsap.registerPlugin(ScrollTrigger);
-
-const TOTAL_ITEMS = categories.reduce((sum, item) => sum + item.productCount, 0);
 
 export function Catalog() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -34,28 +36,27 @@ export function Catalog() {
         },
       });
 
-      gsap.from("[data-bento-card]", {
-        y: 32,
+      gsap.from("[data-shortcut-card]", {
+        y: 24,
         opacity: 0,
-        duration: 0.75,
-        stagger: 0.06,
+        duration: 0.65,
+        stagger: 0.04,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: "[data-bento-grid]",
-          start: "top 82%",
+          trigger: "[data-shortcuts-grid]",
+          start: "top 85%",
           once: true,
         },
       });
 
-      gsap.from("[data-catalog-stats], [data-catalog-cta]", {
+      gsap.from("[data-catalog-cta]", {
         y: 20,
         opacity: 0,
         duration: 0.7,
-        stagger: 0.1,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: "[data-catalog-stats]",
-          start: "top 90%",
+          trigger: "[data-catalog-cta]",
+          start: "top 92%",
           once: true,
         },
       });
@@ -72,70 +73,81 @@ export function Catalog() {
       className="relative -mt-8 bg-void px-6 pb-24 pt-14 sm:px-10 lg:-mt-10 lg:px-16 lg:pb-32 lg:pt-20"
     >
       <div className="mx-auto max-w-[90rem]">
-        <div className="mb-12 flex flex-col gap-6 lg:mb-16 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-10 flex flex-col gap-6 lg:mb-14 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <p
               data-catalog-kicker
               className="font-body text-kicker text-signal uppercase"
             >
-              Variedade · 10 linhas · +7 mil itens
+              Sugestões do catálogo · +7 mil itens
             </p>
             <h2
               id="catalog-heading"
               data-catalog-title
               className="font-display text-display-lg mt-3 text-ice uppercase"
             >
-              Tudo para fixar,
+              Encontre pelo
               <br />
-              montar e produzir.
+              que você precisa.
             </h2>
           </div>
           <div data-catalog-kicker className="max-w-md lg:pb-1">
             <p className="text-body-md text-mute sm:text-body-lg">
-              Parafusos, ferramentas, máquinas e ferragens para serralheria,
-              mecânica, construção e indústria. Atacado e varejo em Poços de Caldas.
+              As mesmas buscas usadas no catálogo do site. Clique em um produto
+              para abrir a pesquisa já configurada — código ou descrição.
             </p>
-          </div>
-        </div>
-
-        <div
-          data-bento-grid
-          className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-flow-dense lg:grid-cols-4 lg:gap-4"
-        >
-          {categories.map((category) => (
-            <ProductBentoCard key={category.id} category={category} />
-          ))}
-        </div>
-
-        <div
-          data-catalog-stats
-          className="mt-4 grid grid-cols-2 gap-3 border border-ice/10 bg-steel/20 p-5 sm:grid-cols-4 sm:gap-4 sm:p-6 lg:mt-6"
-        >
-          <div>
-            <p className="font-display text-2xl text-ice lg:text-3xl">
-              {TOTAL_ITEMS.toLocaleString("pt-BR")}+
-            </p>
-            <p className="mt-1 text-[0.8125rem] text-mute">Itens cadastrados</p>
-          </div>
-          <div>
-            <p className="font-display text-2xl text-ice lg:text-3xl">10</p>
-            <p className="mt-1 text-[0.8125rem] text-mute">Linhas de produto</p>
-          </div>
-          <div>
-            <p className="font-display text-2xl text-ice lg:text-3xl">2</p>
-            <p className="mt-1 text-[0.8125rem] text-mute">Lojas em Poços de Caldas</p>
-          </div>
-          <div className="col-span-2 flex items-center sm:col-span-1">
             <a
               href={buildCatalogUrl()}
-              className="inline-flex min-h-10 items-center font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
+              className="mt-4 inline-flex min-h-10 items-center font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
             >
-              Ver catálogo completo
+              Abrir catálogo completo
             </a>
           </div>
         </div>
 
-        <div className="mt-4 lg:mt-6">
+        <div className="mb-10 lg:mb-14">
+          <p className="font-body text-kicker text-mute uppercase">Mais buscados</p>
+          <div
+            data-shortcuts-grid
+            className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4"
+          >
+            {FEATURED_SHORTCUTS.map((shortcut) => (
+              <ShortcutCard key={shortcut.abbreviation} shortcut={shortcut} featured />
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-10 lg:space-y-12">
+          {SHORTCUT_GROUPS.map((group) => {
+            const items = shortcutsByGroup(group.id).filter((item) => !item.featured);
+            if (items.length === 0) return null;
+
+            return (
+              <section key={group.id} aria-labelledby={`shortcut-group-${group.id}`}>
+                <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
+                  <div>
+                    <h3
+                      id={`shortcut-group-${group.id}`}
+                      className="font-display text-xl text-ice uppercase lg:text-2xl"
+                    >
+                      {group.label}
+                    </h3>
+                    <p className="mt-1 text-[0.875rem] text-mute">{group.description}</p>
+                  </div>
+                </div>
+                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+                  {items.map((shortcut) => (
+                    <li key={shortcut.abbreviation}>
+                      <ShortcutCard shortcut={shortcut} />
+                    </li>
+                  ))}
+                </ul>
+              </section>
+            );
+          })}
+        </div>
+
+        <div className="mt-10 lg:mt-14">
           <CatalogSearchCTA />
         </div>
       </div>
