@@ -8,7 +8,7 @@ export function ContactPreview() {
     <section
       id="contato"
       aria-labelledby="contact-preview-heading"
-      className="bg-steel px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      className="section-atmosphere section-atmosphere-steel section-divider-top bg-steel px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="max-w-3xl">

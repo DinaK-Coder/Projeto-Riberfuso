@@ -32,7 +32,7 @@ export const SHORTCUT_GROUPS: {
   {
     id: "ferramentas",
     label: "Ferramentas manuais",
-    description: "Chaves, soquetes, allen e acessórios de aperto.",
+    description: "Chaves, soquetes e acessórios de aperto.",
   },
   {
     id: "materiais",
@@ -65,9 +65,22 @@ export const CATALOG_SHORTCUTS: CatalogShortcut[] = [
     group: "fixacao",
   },
   {
-    description: "Produtos e parafusos allen",
-    abbreviation: "ALLEN",
-    searchTerms: "ALLEN",
+    description: "Parafusos Allen",
+    abbreviation: "PARAF ALLEN",
+    searchTerms: "PARAF ALLEN",
+    group: "fixacao",
+  },
+  {
+    description: "Chaves Allen",
+    abbreviation: "CHAVE ALLEN",
+    searchTerms: "CHAVE ALLEN",
+    excludePattern: /soquete/i,
+    group: "ferramentas",
+  },
+  {
+    description: "Chaves soquete Allen",
+    abbreviation: "SOQUETE ALLEN",
+    searchTerms: "SOQUETE ALLEN",
     group: "ferramentas",
   },
   {
@@ -180,6 +193,18 @@ function findDescriptionShortcut(query: string): CatalogShortcut | undefined {
 
   if (lower === "brocante" || lower === "pt broca") {
     return CATALOG_SHORTCUTS.find((item) => item.abbreviation === "PONTA BROCA");
+  }
+
+  if (lower === "allen" || lower === "parafuso allen" || lower === "parafusos allen") {
+    return CATALOG_SHORTCUTS.find((item) => item.abbreviation === "PARAF ALLEN");
+  }
+
+  if (lower === "chave soquete allen" || lower === "chaves soquete allen") {
+    return CATALOG_SHORTCUTS.find((item) => item.abbreviation === "SOQUETE ALLEN");
+  }
+
+  if (lower === "chave allen" || lower === "chaves allen") {
+    return CATALOG_SHORTCUTS.find((item) => item.abbreviation === "CHAVE ALLEN");
   }
 
   return undefined;

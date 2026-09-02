@@ -64,7 +64,7 @@ export function Catalog() {
       ref={sectionRef}
       id="produtos"
       aria-labelledby="catalog-heading"
-      className="relative -mt-8 bg-void px-6 pb-24 pt-14 sm:px-10 lg:-mt-10 lg:px-16 lg:pb-32 lg:pt-20"
+      className="relative -mt-8 section-atmosphere section-divider-top bg-void px-6 pb-24 pt-14 sm:px-10 lg:-mt-10 lg:px-16 lg:pb-32 lg:pt-20"
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="mb-10 flex flex-col gap-6 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">

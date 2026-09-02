@@ -5,11 +5,14 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        void: "#1C1F26",
-        steel: "#2A3148",
+        /* Extraídas do logo Riberfuso (RF vermelho/azul + fundo navy) */
+        void: "#0F1624",
+        steel: "#1A2744",
+        panel: "#1C2740",
+        ink: "#080D18",
         ice: "#F7F8FA",
         mute: "#C5CAD0",
-        signal: "#E31E24",
+        signal: "#E83038",
         brand: "#4F53A4",
       },
       fontFamily: {
