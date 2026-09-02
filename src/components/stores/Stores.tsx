@@ -6,7 +6,7 @@ export function Stores() {
     <section
       id="lojas"
       aria-labelledby="stores-heading"
-      className="bg-void px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      className="section-atmosphere section-divider-top bg-void px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="max-w-3xl">

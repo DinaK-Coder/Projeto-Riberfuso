@@ -114,12 +114,12 @@ export function BrandPlate({
           resetMedia();
         }
       }}
-      className={`relative flex cursor-pointer items-center justify-center overflow-hidden border border-white/12 bg-[#2A3140] p-[5px] text-[#1A1C20] transition-[opacity,box-shadow] duration-300 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-[#121F35] focus-visible:outline-none ${
+      className={`relative flex cursor-pointer items-center justify-center overflow-hidden border border-white/12 bg-panel p-[5px] text-[#1A1C20] transition-[opacity,box-shadow] duration-300 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-steel focus-visible:outline-none ${
         compact ? "h-[6.25rem] w-full shrink-0" : "aspect-[5/3] w-full min-w-0"
       } ${active ? "z-10" : "z-0"} ${dimmed ? "opacity-[0.38]" : "opacity-100"}`}
       style={{
         colorScheme: "light",
-        outline: active ? "2px solid #E31E24" : "1px solid transparent",
+        outline: active ? "2px solid #E83038" : "1px solid transparent",
         outlineOffset: "-1px",
       }}
     >
@@ -135,7 +135,7 @@ export function BrandPlate({
       </span>
       <span
         aria-hidden
-        className={`pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[3px] origin-left bg-[#E31E24] transition-transform duration-300 ${
+        className={`pointer-events-none absolute inset-x-0 bottom-0 z-[3] h-[3px] origin-left bg-signal transition-transform duration-300 ${
           active || selected ? "scale-x-100" : "scale-x-0"
         }`}
       />

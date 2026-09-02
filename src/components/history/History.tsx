@@ -57,7 +57,7 @@ export function History() {
       ref={sectionRef}
       id="sobre"
       aria-labelledby="history-heading"
-      className="bg-void px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      className="section-atmosphere section-divider-top bg-void px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16 xl:gap-20">

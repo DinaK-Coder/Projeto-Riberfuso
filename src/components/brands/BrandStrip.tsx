@@ -200,7 +200,7 @@ export function BrandStrip({ brands, reducedMotion }: BrandStripProps) {
         </div>
       ) : (
         <div
-          className="brand-strip relative overflow-hidden border border-white/10 bg-[#0E1829] py-3"
+          className="brand-strip relative overflow-hidden border border-white/10 bg-ink py-3"
           onPointerEnter={onPointerSample}
           onPointerMove={onPointerSample}
           onPointerLeave={onPointerLeaveStrip}
@@ -230,8 +230,8 @@ export function BrandStrip({ brands, reducedMotion }: BrandStripProps) {
               onToggle={onToggle}
             />
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-[#0E1829] to-transparent sm:w-16" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-[#0E1829] to-transparent sm:w-16" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-ink to-transparent sm:w-16" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-ink to-transparent sm:w-16" />
         </div>
       )}
       <BrandInfoPanel active={active} reducedMotion={reducedMotion} />
@@ -249,7 +249,7 @@ function BrandInfoPanel({
   return (
     <div
       id="brand-info-panel"
-      className="mt-5 min-h-[17rem] overflow-hidden border border-white/10 bg-[#0E1829] px-5 py-5 sm:min-h-[15.5rem] sm:px-6 sm:py-6"
+      className="mt-5 min-h-[17rem] overflow-hidden border border-white/10 bg-ink px-5 py-5 sm:min-h-[15.5rem] sm:px-6 sm:py-6"
       aria-live="polite"
       aria-atomic="true"
     >

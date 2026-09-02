@@ -26,9 +26,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="pt-BR" className="bg-[#1C1F26]" suppressHydrationWarning>
+    <html lang="pt-BR" className="bg-void" suppressHydrationWarning>
       <body
-        className={`${outfit.variable} ${mono.variable} bg-[#1C1F26] font-body text-base text-ice antialiased`}
+        className={`${outfit.variable} ${mono.variable} bg-void font-body text-base text-ice antialiased`}
         suppressHydrationWarning
       >
         {children}

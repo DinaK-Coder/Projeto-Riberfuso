@@ -130,25 +130,29 @@ export function ShortcutCarousel() {
       <div className="relative mt-5">
         <div
           ref={trackRef}
-          className="flex gap-3 overflow-x-auto scroll-smooth pb-2 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          className="flex gap-3 overflow-x-auto scroll-smooth px-0.5 py-1 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
           tabIndex={0}
           aria-label="Carrossel de sugestões do catálogo"
         >
           {items.map((shortcut) => (
-            <div key={shortcut.abbreviation} className="snap-start">
+            <div key={shortcut.abbreviation} className="snap-start shrink-0">
               <ShortcutCard shortcut={shortcut} />
             </div>
           ))}
         </div>
 
-        <div
-          className="pointer-events-none absolute inset-y-0 left-0 w-8 bg-gradient-to-r from-void to-transparent sm:w-12"
-          aria-hidden
-        />
-        <div
-          className="pointer-events-none absolute inset-y-0 right-0 w-8 bg-gradient-to-l from-void to-transparent sm:w-12"
-          aria-hidden
-        />
+        {canPrev && (
+          <div
+            className="pointer-events-none absolute inset-y-0 left-0 w-6 bg-gradient-to-r from-void via-void/70 to-transparent sm:w-8"
+            aria-hidden
+          />
+        )}
+        {canNext && (
+          <div
+            className="pointer-events-none absolute inset-y-0 right-0 w-6 bg-gradient-to-l from-void via-void/70 to-transparent sm:w-8"
+            aria-hidden
+          />
+        )}
       </div>
 
       <p className="mt-3 text-[0.8125rem] text-mute">

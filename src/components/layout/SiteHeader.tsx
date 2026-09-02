@@ -4,7 +4,7 @@ import { navLinks, site } from "@/lib/site";
 
 export function SiteHeader() {
   return (
-    <header className="sticky top-0 z-50 bg-[#1C1F26] shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
+    <header className="sticky top-0 z-50 bg-void shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
       <div className="mx-auto flex w-full max-w-[90rem] items-center gap-5 px-4 py-3.5 sm:px-8 lg:px-12">
         <Link href="/" className="shrink-0" aria-label="Voltar ao início">
           <Image
@@ -40,7 +40,7 @@ export function SiteHeader() {
           href={site.whatsapp}
           target="_blank"
           rel="noopener noreferrer"
-          className="hidden shrink-0 items-center bg-signal px-4 py-2.5 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-white uppercase transition-colors hover:bg-[#c4191f] focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:inline-flex sm:text-sm"
+          className="hidden shrink-0 items-center bg-signal px-4 py-2.5 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-white uppercase transition-colors hover:bg-[#c4242c] focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:inline-flex sm:text-sm"
         >
           WhatsApp
         </a>

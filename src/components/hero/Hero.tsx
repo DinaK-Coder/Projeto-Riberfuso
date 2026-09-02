@@ -356,7 +356,7 @@ export function Hero() {
         id="inicio"
         aria-labelledby="hero-heading"
         data-hero-state="pending"
-        className="relative isolate flex min-h-[calc(100svh-var(--site-header-height))] flex-col justify-center overflow-hidden bg-[#1C1F26]"
+        className="relative isolate flex min-h-[calc(100svh-var(--site-header-height))] flex-col justify-center overflow-hidden bg-void"
       >
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div className="hero-photo-frame absolute inset-0">
@@ -383,7 +383,11 @@ export function Hero() {
             </div>
           </div>
           <div className="hero-gradient-protect absolute inset-0" />
-          <div className="absolute inset-0 bg-gradient-to-t from-[#1C1F26]/55 via-transparent to-[#1C1F26]/16" />
+          <div className="absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-void/20" />
+          <div
+            className="absolute inset-0 bg-[radial-gradient(ellipse_65%_50%_at_80%_15%,rgba(232,48,56,0.14),transparent_55%),radial-gradient(ellipse_50%_40%_at_15%_90%,rgba(79,83,164,0.12),transparent_55%)]"
+            aria-hidden
+          />
         </div>
 
         <div className="hero-shell relative z-[1]">

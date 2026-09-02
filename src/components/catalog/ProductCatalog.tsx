@@ -460,7 +460,7 @@ export function ProductCatalog() {
               href={whatsappNotFoundUrl(site.whatsapp, activeQuery)}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-6 inline-flex min-h-11 items-center bg-signal px-4 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-white uppercase transition-colors hover:bg-[#c4191f] focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
+              className="mt-6 inline-flex min-h-11 items-center bg-signal px-4 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-white uppercase transition-colors hover:bg-[#c4242c] focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
             >
               Falar com um vendedor
             </a>
