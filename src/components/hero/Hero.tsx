@@ -383,9 +383,9 @@ export function Hero() {
             </div>
           </div>
           <div className="hero-gradient-protect absolute inset-0" />
-          <div className="absolute inset-0 bg-gradient-to-t from-void/70 via-transparent to-void/20" />
+          <div className="absolute inset-0 bg-gradient-to-t from-void/45 via-transparent to-void/10" />
           <div
-            className="absolute inset-0 bg-[radial-gradient(ellipse_65%_50%_at_80%_15%,rgba(232,48,56,0.14),transparent_55%),radial-gradient(ellipse_50%_40%_at_15%_90%,rgba(79,83,164,0.12),transparent_55%)]"
+            className="absolute inset-0 bg-[radial-gradient(ellipse_65%_50%_at_80%_15%,rgba(232,48,56,0.06),transparent_58%),radial-gradient(ellipse_50%_40%_at_15%_90%,rgba(79,83,164,0.05),transparent_58%)]"
             aria-hidden
           />
         </div>
