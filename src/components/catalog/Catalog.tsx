@@ -3,15 +3,10 @@
 import { useEffect, useRef } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import {
-  FEATURED_SHORTCUTS,
-  SHORTCUT_GROUPS,
-  shortcutsByGroup,
-} from "@/lib/catalog-shortcuts";
 import { buildCatalogUrl } from "@/lib/catalog-url";
 import { prefersReducedMotion } from "@/lib/prefers-motion";
 import { CatalogSearchCTA } from "./CatalogSearchCTA";
-import { ShortcutCard } from "./ShortcutCard";
+import { ShortcutCarousel } from "./ShortcutCarousel";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -24,9 +19,9 @@ export function Catalog() {
 
     const ctx = gsap.context(() => {
       gsap.from("[data-catalog-kicker], [data-catalog-title]", {
-        y: 28,
+        y: 24,
         opacity: 0,
-        duration: 0.9,
+        duration: 0.8,
         stagger: 0.08,
         ease: "power3.out",
         scrollTrigger: {
@@ -36,23 +31,22 @@ export function Catalog() {
         },
       });
 
-      gsap.from("[data-shortcut-card]", {
-        y: 24,
+      gsap.from("[data-shortcuts-carousel]", {
+        y: 18,
         opacity: 0,
-        duration: 0.65,
-        stagger: 0.04,
+        duration: 0.7,
         ease: "power3.out",
         scrollTrigger: {
-          trigger: "[data-shortcuts-grid]",
-          start: "top 85%",
+          trigger: "[data-shortcuts-carousel]",
+          start: "top 88%",
           once: true,
         },
       });
 
       gsap.from("[data-catalog-cta]", {
-        y: 20,
+        y: 16,
         opacity: 0,
-        duration: 0.7,
+        duration: 0.65,
         ease: "power3.out",
         scrollTrigger: {
           trigger: "[data-catalog-cta]",
@@ -73,7 +67,7 @@ export function Catalog() {
       className="relative -mt-8 bg-void px-6 pb-24 pt-14 sm:px-10 lg:-mt-10 lg:px-16 lg:pb-32 lg:pt-20"
     >
       <div className="mx-auto max-w-[90rem]">
-        <div className="mb-10 flex flex-col gap-6 lg:mb-14 lg:flex-row lg:items-end lg:justify-between">
+        <div className="mb-10 flex flex-col gap-6 lg:mb-12 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-3xl">
             <p
               data-catalog-kicker
@@ -93,8 +87,8 @@ export function Catalog() {
           </div>
           <div data-catalog-kicker className="max-w-md lg:pb-1">
             <p className="text-body-md text-mute sm:text-body-lg">
-              As mesmas buscas usadas no catálogo do site. Clique em um produto
-              para abrir a pesquisa já configurada — código ou descrição.
+              As mesmas buscas do catálogo. Escolha uma sugestão e abra a
+              pesquisa já configurada.
             </p>
             <a
               href={buildCatalogUrl()}
@@ -105,49 +99,9 @@ export function Catalog() {
           </div>
         </div>
 
-        <div className="mb-10 lg:mb-14">
-          <p className="font-body text-kicker text-mute uppercase">Mais buscados</p>
-          <div
-            data-shortcuts-grid
-            className="mt-3 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4 lg:gap-4"
-          >
-            {FEATURED_SHORTCUTS.map((shortcut) => (
-              <ShortcutCard key={shortcut.abbreviation} shortcut={shortcut} featured />
-            ))}
-          </div>
-        </div>
+        <ShortcutCarousel />
 
-        <div className="space-y-10 lg:space-y-12">
-          {SHORTCUT_GROUPS.map((group) => {
-            const items = shortcutsByGroup(group.id).filter((item) => !item.featured);
-            if (items.length === 0) return null;
-
-            return (
-              <section key={group.id} aria-labelledby={`shortcut-group-${group.id}`}>
-                <div className="mb-4 flex flex-col gap-1 sm:flex-row sm:items-end sm:justify-between">
-                  <div>
-                    <h3
-                      id={`shortcut-group-${group.id}`}
-                      className="font-display text-xl text-ice uppercase lg:text-2xl"
-                    >
-                      {group.label}
-                    </h3>
-                    <p className="mt-1 text-[0.875rem] text-mute">{group.description}</p>
-                  </div>
-                </div>
-                <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {items.map((shortcut) => (
-                    <li key={shortcut.abbreviation}>
-                      <ShortcutCard shortcut={shortcut} />
-                    </li>
-                  ))}
-                </ul>
-              </section>
-            );
-          })}
-        </div>
-
-        <div className="mt-10 lg:mt-14">
+        <div className="mt-12 lg:mt-16">
           <CatalogSearchCTA />
         </div>
       </div>

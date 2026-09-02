@@ -8,58 +8,38 @@ import {
 
 type ShortcutCardProps = {
   shortcut: CatalogShortcut;
-  featured?: boolean;
 };
 
-export function ShortcutCard({ shortcut, featured = false }: ShortcutCardProps) {
+export function ShortcutCard({ shortcut }: ShortcutCardProps) {
   const href = buildShortcutCatalogUrl(shortcut);
 
   return (
     <Link
       href={href}
       data-shortcut-card
-      className={`group relative flex flex-col justify-between overflow-hidden border border-ice/10 bg-gradient-to-br from-steel/35 via-void to-void transition-[border-color,transform] duration-300 hover:border-signal/45 hover:-translate-y-0.5 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none ${
-        featured
-          ? "min-h-[200px] p-6 sm:min-h-[220px] lg:min-h-[240px]"
-          : "min-h-[148px] p-4 sm:min-h-[160px] sm:p-5"
-      }`}
+      className="group flex h-full min-h-[7.5rem] w-[15.5rem] shrink-0 flex-col justify-between border border-ice/10 bg-steel/20 px-4 py-4 transition-[border-color,background-color] duration-250 hover:border-signal/40 hover:bg-steel/35 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:w-[17rem] sm:px-5 sm:py-5"
     >
-      <div
-        className="pointer-events-none absolute -top-6 -right-6 h-24 w-24 rounded-full bg-signal/5 transition-transform duration-500 group-hover:scale-125"
-        aria-hidden
-      />
-
-      <div className="relative z-10">
-        <p className="font-body text-[0.6875rem] tracking-[0.12em] text-signal uppercase">
+      <div>
+        <p className="font-body text-[0.625rem] tracking-[0.14em] text-signal uppercase">
           {shortcut.abbreviation}
         </p>
-        <h3
-          className={`font-display mt-2 text-ice uppercase ${
-            featured ? "text-xl lg:text-2xl" : "text-base lg:text-lg"
-          }`}
-        >
+        <h3 className="font-display mt-2 text-[0.95rem] leading-snug text-ice uppercase sm:text-base">
           {shortcut.description}
         </h3>
       </div>
 
-      <div className="relative z-10 mt-4 flex items-center justify-between gap-3">
-        <span className="text-[0.8125rem] text-mute">Busca no catálogo</span>
-        <span
-          className="inline-flex shrink-0 items-center gap-1 font-body text-[0.75rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors group-hover:text-signal"
-          aria-hidden
-        >
-          Ver
-          <svg viewBox="0 0 16 16" className="h-3.5 w-3.5" fill="none">
-            <path
-              d="M3 8h10m0 0L9 4m4 4L9 12"
-              stroke="currentColor"
-              strokeWidth="1.5"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </span>
-      </div>
+      <span className="mt-4 inline-flex items-center gap-1.5 font-body text-[0.6875rem] font-semibold tracking-[0.1em] text-mute uppercase transition-colors group-hover:text-signal">
+        Consultar
+        <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" aria-hidden>
+          <path
+            d="M3 8h10m0 0L9 4m4 4L9 12"
+            stroke="currentColor"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      </span>
     </Link>
   );
 }
