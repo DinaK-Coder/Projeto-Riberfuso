@@ -2,10 +2,13 @@
 
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
+import { useRouter, useSearchParams } from "next/navigation";
 import { CATALOG_SHORTCUTS } from "@/lib/catalog-shortcuts";
+import { buildCatalogUrl, parseCatalogUrl } from "@/lib/catalog-url";
 import {
   CATALOG_PDF_HREF,
   PAGE_SIZE,
+  categoryLabel,
   searchCatalog,
   whatsappConsultUrl,
   whatsappNotFoundUrl,
@@ -131,21 +134,53 @@ function CatalogPagination({
 }
 
 export function ProductCatalog() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const initialParams = useMemo(() => parseCatalogUrl(searchParams), [searchParams]);
+
   const [products, setProducts] = useState<CatalogProduct[]>([]);
   const [total, setTotal] = useState(0);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [mode, setMode] = useState<CatalogSearchMode>("description");
-  const [query, setQuery] = useState("");
+  const [mode, setMode] = useState<CatalogSearchMode>(initialParams.mode);
+  const [query, setQuery] = useState(initialParams.q);
+  const [categoryId, setCategoryId] = useState(initialParams.categoria);
   const [page, setPage] = useState(1);
   const panelRef = useRef<HTMLDivElement>(null);
   const catalogTopRef = useRef<HTMLDivElement>(null);
   const prevMode = useRef(mode);
   const scrollAfterPageChange = useRef(false);
+  const urlReady = useRef(false);
 
   const deferredQuery = useDeferredValue(query);
   const activeQuery = mode === "code" ? query.trim() : deferredQuery.trim();
   const isSearching = mode === "description" && query.trim() !== deferredQuery.trim();
   const hasQuery = activeQuery.length > 0;
+  const hasCategory = categoryId.length > 0;
+  const categoryName = hasCategory ? categoryLabel(categoryId) : "";
+
+  useEffect(() => {
+    const next = parseCatalogUrl(searchParams);
+    setMode(next.mode);
+    setQuery(next.q);
+    setCategoryId(next.categoria);
+    urlReady.current = true;
+  }, [searchParams]);
+
+  useEffect(() => {
+    if (!urlReady.current) return;
+
+    const current = parseCatalogUrl(searchParams);
+    if (
+      current.q !== activeQuery ||
+      current.mode !== mode ||
+      current.categoria !== categoryId
+    ) {
+      router.replace(
+        buildCatalogUrl({ q: activeQuery, mode, categoria: categoryId }),
+        { scroll: false },
+      );
+    }
+  }, [activeQuery, mode, categoryId, router, searchParams]);
 
   useEffect(() => {
     let cancelled = false;
@@ -173,7 +208,7 @@ export function ProductCatalog() {
 
   useEffect(() => {
     setPage(1);
-  }, [activeQuery, mode]);
+  }, [activeQuery, mode, categoryId]);
 
   useEffect(() => {
     if (!scrollAfterPageChange.current) return;
@@ -200,8 +235,11 @@ export function ProductCatalog() {
   }, [mode]);
 
   const results = useMemo(
-    () => searchCatalog(products, activeQuery, mode),
-    [products, activeQuery, mode],
+    () =>
+      searchCatalog(products, activeQuery, mode, {
+        categoryId: categoryId || undefined,
+      }),
+    [products, activeQuery, mode, categoryId],
   );
 
   const pageCount = Math.max(1, Math.ceil(results.length / PAGE_SIZE));
@@ -215,10 +253,16 @@ export function ProductCatalog() {
     if (next === mode) return;
     setMode(next);
     setQuery("");
+    setCategoryId("");
+  };
+
+  const clearCategory = () => {
+    setCategoryId("");
   };
 
   const applyShortcut = (abbreviation: string) => {
     setMode("description");
+    setCategoryId("");
     setQuery(abbreviation);
   };
 
@@ -308,6 +352,23 @@ export function ProductCatalog() {
         )}
       </div>
 
+      {hasCategory && (
+        <div className="mt-4 flex flex-wrap items-center gap-2">
+          <span className="text-[0.875rem] text-mute">Linha:</span>
+          <button
+            type="button"
+            onClick={clearCategory}
+            className="inline-flex min-h-9 items-center gap-2 border border-signal/40 bg-signal/10 px-3 font-body text-[0.8125rem] font-medium text-ice transition-colors hover:border-signal hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
+          >
+            {categoryName}
+            <span aria-hidden className="text-mute">
+              ×
+            </span>
+            <span className="sr-only">Remover filtro de linha</span>
+          </button>
+        </div>
+      )}
+
       {mode === "description" && (
         <div className="mt-5">
           <p className="font-body text-kicker text-mute uppercase">
@@ -342,7 +403,8 @@ export function ProductCatalog() {
             <p role="status" aria-live="polite">
               {results.length.toLocaleString("pt-BR")} resultado
               {results.length === 1 ? "" : "s"}
-              {hasQuery ? " encontrados" : ""} ·{" "}
+              {hasQuery || hasCategory ? " encontrados" : ""}
+              {hasCategory ? ` em ${categoryName}` : ""} ·{" "}
               {total.toLocaleString("pt-BR")} itens no cadastro
             </p>
             <p>Preços e estoque sob consulta no WhatsApp.</p>
@@ -371,7 +433,7 @@ export function ProductCatalog() {
           <span>Consulta</span>
         </div>
 
-        {status === "ready" && !isSearching && mode === "code" && !hasQuery && (
+        {status === "ready" && !isSearching && mode === "code" && !hasQuery && !hasCategory && (
           <p className="px-4 py-10 text-body-md text-mute">
             Digite o código do produto para localizar o item no cadastro.
           </p>

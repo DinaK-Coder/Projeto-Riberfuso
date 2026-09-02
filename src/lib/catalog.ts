@@ -239,18 +239,34 @@ export function filterProducts(products: CatalogProduct[], query: string) {
   });
 }
 
+export type CatalogSearchOptions = {
+  categoryId?: string;
+};
+
+export function filterProductsByCategory(
+  products: CatalogProduct[],
+  categoryId?: string,
+): CatalogProduct[] {
+  if (!categoryId) return products;
+  return products.filter((product) => product.g === categoryId);
+}
+
 export function searchCatalog(
   products: CatalogProduct[],
   query: string,
   mode: CatalogSearchMode,
+  options: CatalogSearchOptions = {},
 ): CatalogProduct[] {
+  const scoped = filterProductsByCategory(products, options.categoryId);
   const trimmed = query.trim();
+
   if (!trimmed) {
-    return mode === "description" ? sortProductsByMeasurement(products) : [];
+    return mode === "description" ? sortProductsByMeasurement(scoped) : [];
   }
+
   return mode === "code"
-    ? searchByCode(products, trimmed)
-    : searchByDescription(products, trimmed);
+    ? searchByCode(scoped, trimmed)
+    : searchByDescription(scoped, trimmed);
 }
 
 export function whatsappConsultUrl(baseUrl: string, product: CatalogProduct) {

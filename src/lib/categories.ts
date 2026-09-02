@@ -1,3 +1,5 @@
+export type CategoryShowcaseSize = "hero" | "large" | "medium" | "compact";
+
 export type Category = {
   id: string;
   index: string;
@@ -7,6 +9,9 @@ export type Category = {
   /** Approximate count from commercial catalog export */
   productCount: number;
   examples: string[];
+  showcaseSize: CategoryShowcaseSize;
+  /** Optional default search when opening the catalog for this line */
+  catalogQuery?: string;
 };
 
 export const categories: Category[] = [
@@ -23,6 +28,8 @@ export const categories: Category[] = [
       "Auto atarraxante",
       "Linha inox",
     ],
+    showcaseSize: "hero",
+    catalogQuery: "PARAF SEXT",
   },
   {
     id: "porcas-arruelas",
@@ -33,6 +40,7 @@ export const categories: Category[] = [
     spec: "Sextavada · autotravante · lisa / pressão",
     productCount: 747,
     examples: ["Porca sextavada", "Arruela", "Anel elástico"],
+    showcaseSize: "medium",
   },
   {
     id: "ferramentas-manuais",
@@ -43,6 +51,8 @@ export const categories: Category[] = [
     spec: "Profissional · hobby · oficina",
     productCount: 601,
     examples: ["Alicate", "Chave combinada", "Soquete"],
+    showcaseSize: "medium",
+    catalogQuery: "CHAVE COMB",
   },
   {
     id: "ferramentas-eletricas",
@@ -53,6 +63,7 @@ export const categories: Category[] = [
     spec: "Bosch Professional",
     productCount: 118,
     examples: ["Furadeira", "Parafusadeira", "Esmerilhadeira"],
+    showcaseSize: "compact",
   },
   {
     id: "maquinas",
@@ -63,6 +74,7 @@ export const categories: Category[] = [
     spec: "Oficina · indústria · serviço pesado",
     productCount: 46,
     examples: ["Compressor", "Prensa", "Equipamento de oficina"],
+    showcaseSize: "compact",
   },
   {
     id: "linha-trator",
@@ -73,6 +85,7 @@ export const categories: Category[] = [
     spec: "Arado · lâmina · recuperador",
     productCount: 51,
     examples: ["Parafuso arado", "Recuperador", "Linha agrícola"],
+    showcaseSize: "compact",
   },
   {
     id: "serralheria",
@@ -83,6 +96,8 @@ export const categories: Category[] = [
     spec: "Ferragens · barras · cabos de aço",
     productCount: 324,
     examples: ["Dobradiça", "Cabo de aço", "Grampo"],
+    showcaseSize: "large",
+    catalogQuery: "CABO DE ACO",
   },
   {
     id: "abrasivos",
@@ -93,6 +108,7 @@ export const categories: Category[] = [
     spec: "Corte · desbaste · acabamento",
     productCount: 103,
     examples: ["Disco de corte", "Disco flap", "Lixa"],
+    showcaseSize: "compact",
   },
   {
     id: "acessorios",
@@ -103,6 +119,7 @@ export const categories: Category[] = [
     spec: "Encaixe · bits · soquetes",
     productCount: 300,
     examples: ["Abraçadeira", "Broca", "Adaptador"],
+    showcaseSize: "medium",
   },
   {
     id: "equipamentos-profissionais",
@@ -113,5 +130,6 @@ export const categories: Category[] = [
     spec: "Medição · proteção · serviço",
     productCount: 64,
     examples: ["Esquadro", "Trena", "EPI"],
+    showcaseSize: "compact",
   },
 ];

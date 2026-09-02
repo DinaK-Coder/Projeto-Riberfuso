@@ -1,3 +1,4 @@
+import { Suspense } from "react";
 import type { Metadata } from "next";
 import Link from "next/link";
 import { ProductCatalog } from "@/components/catalog/ProductCatalog";
@@ -37,7 +38,15 @@ export default function CatalogoPage() {
       </section>
 
       <section className="bg-void px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-        <ProductCatalog />
+        <Suspense
+          fallback={
+            <p className="text-body-md text-mute" role="status">
+              Carregando catálogo…
+            </p>
+          }
+        >
+          <ProductCatalog />
+        </Suspense>
       </section>
       <SiteFooter />
     </main>
