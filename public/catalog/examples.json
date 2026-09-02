@@ -1,0 +1,79 @@
+{
+  "acessorios": [
+    "ABRAÇAD. RSF B 07 X 10 3/8",
+    "ABRAÇAD. RSF B 08 X 13 1/2",
+    "ABRAÇAD. RSF C 12 X 16 5/8",
+    "ABRAÇAD. RSF D 13 X 19 3/4",
+    "ABRAÇAD. RSF D 13 X 22 7/8"
+  ],
+  "outros": [
+    "ACOPLAMENTO",
+    "ALARGADOR",
+    "ALFABETO-ABECEDARIO BATER- 6 MM",
+    "ALFABETO-ABECEDARIO BATER- 8 MM",
+    "ALGARISMO BATER 06 MM"
+  ],
+  "ferramentas-manuais": [
+    "ALAVANCA 1,50 M",
+    "ALAVANCA P/ VITRO NIQ.",
+    "ALICATE BICO CURVO.1/2 CANA 6 - IMP",
+    "ALICATE BICO CURVO.1/2 CANA 6 - TRAM",
+    "ALICATE BICO RETO 1/2 CANA 6 - BERG"
+  ],
+  "porcas-arruelas": [
+    "ANEL ELASTICO EXTERNO 04 3,8",
+    "ANEL ELASTICO EXTERNO 05 4,7",
+    "ANEL ELASTICO EXTERNO 06 5,6",
+    "ANEL ELASTICO EXTERNO 07 6,5",
+    "ANEL ELASTICO EXTERNO 08 7,4"
+  ],
+  "serralheria": [
+    "BROCA CH/FRESA P/ DOBRADIÇA 26 MM",
+    "BROCA CH/FRESA P/ DOBRADIÇA 35 MM",
+    "CABO DE AÇO 1/16 -1/8 PVC 6 X 7",
+    "CABO DE AÇO 1/64 PLASTIF.6 X 7",
+    "CABO DE AÇO 1/8 -3/16 PVC 6 X 7"
+  ],
+  "parafusos": [
+    "BROCA ESCAREADOR P/ PARAF.",
+    "INOX.PARAF. ATARRX. 3.5 X 16 PAN",
+    "INOX.PARAF. ATARRX. 3.9 X 16 PAN",
+    "INOX.PARAF. ATARRX. 3.9 X 25 PAN",
+    "INOX.PARAF. ATARRX. 4.2 X 16 PAN"
+  ],
+  "ferramentas-eletricas": [
+    "BUCHA REDUÇAO P/ SERRA CIRCULAR",
+    "CAIXA FERRAMENTA, P/ FURADEIRA",
+    "CARVAO P/ ESMERILH./SERRA BOSCH",
+    "CARVAO P/ FURADEIRA/... BOSCH",
+    "DISCO.DE BORRACH.ESMERILH. 4.1/2"
+  ],
+  "maquinas": [
+    "CLIPS PRENSA CABO AÇO-1/16 - 3/32",
+    "CLIPS PRENSA CABO AÇO-1/8 - 3/16",
+    "COMPRESSOR JETMIL HOBBY 2,3 PCM",
+    "COMPRESSOR KIT-350W SCHULZ",
+    "COMPRESSOR KIT-PINTURA TORK-600"
+  ],
+  "equipamentos-profissionais": [
+    "CNX.LUVA 1/4",
+    "CNX.LUVA 3/8",
+    "ESQUADRO ALUMINIO 30 MM",
+    "ESQUADRO ALUMINIO 30 MM-IMP",
+    "ESQUADRO ALUMINIO STANLEY 30 MM"
+  ],
+  "abrasivos": [
+    "DISCO DE DESBASTE 4.1/2X3/16X7/8",
+    "DISCO DE DESBASTE 7X 1/4X 7/8 3T",
+    "DISCO DE DESBASTE 9X 1/4X 7/8 3T",
+    "DISCO FLAPS 4.1/2 X 7/8",
+    "DISCO FLAPS 4.1/2 X 7/8-SMT 800"
+  ],
+  "linha-trator": [
+    "PARAFUSO ARADO A 3/8 X 1",
+    "PARAFUSO ARADO A 3/8 X 1.1/4",
+    "PARAFUSO ARADO B 3/8 X 1.1/2",
+    "PARAFUSO ARADO C 7/16 X 1.1/2",
+    "PARAFUSO ARADO C 7/16 X 1.1/4"
+  ]
+}

@@ -1,0 +1,31 @@
+import dynamic from "next/dynamic";
+import { ContactPreview } from "@/components/contact/ContactPreview";
+import { Hero } from "@/components/hero/Hero";
+import { SiteFooter } from "@/components/layout/SiteFooter";
+import { SiteHeader } from "@/components/layout/SiteHeader";
+import { Stores } from "@/components/stores/Stores";
+
+const Catalog = dynamic(() =>
+  import("@/components/catalog/Catalog").then((module) => module.Catalog),
+);
+const Partners = dynamic(() =>
+  import("@/components/brands/Partners").then((module) => module.Partners),
+);
+const History = dynamic(() =>
+  import("@/components/history/History").then((module) => module.History),
+);
+
+export default function HomePage() {
+  return (
+    <main>
+      <SiteHeader />
+      <Hero />
+      <Catalog />
+      <Partners />
+      <History />
+      <Stores />
+      <ContactPreview />
+      <SiteFooter />
+    </main>
+  );
+}
