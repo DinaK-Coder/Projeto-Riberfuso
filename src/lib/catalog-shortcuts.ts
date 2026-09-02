@@ -88,11 +88,6 @@ export const CATALOG_SHORTCUTS: CatalogShortcut[] = [
     searchAnyOf: ["BROCANTE", "PT BROCA"],
   },
   {
-    description: "Folhas de lixa",
-    abbreviation: "FOLHA LIXA",
-    searchTerms: "FOLHA LIXA",
-  },
-  {
     description: "Chaves Torx",
     abbreviation: "CHAVE TORX",
     searchTerms: "CHAVE TORX",
