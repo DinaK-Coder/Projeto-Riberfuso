@@ -1,11 +1,17 @@
-import { contact } from "@/lib/contact";
-import { site } from "@/lib/site";
+import type { ContactInfo } from "@/lib/contact";
+import type { SiteContent } from "@/lib/site";
 
 type ContactChannelsProps = {
   variant?: "grid" | "stack";
+  contact: ContactInfo;
+  site: SiteContent;
 };
 
-export function ContactChannels({ variant = "grid" }: ContactChannelsProps) {
+export function ContactChannels({
+  variant = "grid",
+  contact,
+  site,
+}: ContactChannelsProps) {
   const layout =
     variant === "grid"
       ? "grid gap-4 sm:grid-cols-2"

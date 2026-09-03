@@ -1,10 +1,14 @@
 import Image from "next/image";
 import Link from "next/link";
-import { contact } from "@/lib/contact";
-import { homeSection, navLinks, site } from "@/lib/site";
-import { stores } from "@/lib/stores";
+import { getContactInfo, getSiteContent, getStores } from "@/lib/firebase/content";
+import { homeSection, navLinks } from "@/lib/site";
 
-export function SiteFooter() {
+export async function SiteFooter() {
+  const [site, stores, contact] = await Promise.all([
+    getSiteContent(),
+    getStores(),
+    getContactInfo(),
+  ]);
   const year = new Date().getFullYear();
 
   return (

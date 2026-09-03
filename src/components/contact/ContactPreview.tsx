@@ -1,9 +1,13 @@
 import Link from "next/link";
-import { contact } from "@/lib/contact";
-import { homeSection, site } from "@/lib/site";
-import { stores } from "@/lib/stores";
+import { getContactInfo, getSiteContent, getStores } from "@/lib/firebase/content";
+import { homeSection } from "@/lib/site";
 
-export function ContactPreview() {
+export async function ContactPreview() {
+  const [site, stores, contact] = await Promise.all([
+    getSiteContent(),
+    getStores(),
+    getContactInfo(),
+  ]);
   return (
     <section
       id="contato"

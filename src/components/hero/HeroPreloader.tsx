@@ -2,15 +2,16 @@
 
 import Image from "next/image";
 import { forwardRef } from "react";
-import { site } from "@/lib/site";
+import type { SiteContent } from "@/lib/site";
 
 type HeroPreloaderProps = {
   progress: number;
   visible: boolean;
+  site: SiteContent;
 };
 
 export const HeroPreloader = forwardRef<HTMLDivElement, HeroPreloaderProps>(
-  function HeroPreloader({ progress, visible }, ref) {
+  function HeroPreloader({ progress, visible, site }, ref) {
     if (!visible) return null;
 
     const pct = Math.round(Math.min(Math.max(progress, 0), 1) * 100);

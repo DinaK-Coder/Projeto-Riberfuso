@@ -17,7 +17,6 @@ import {
   type CatalogSearchMode,
 } from "@/lib/catalog";
 import { prefersReducedMotion } from "@/lib/prefers-motion";
-import { site } from "@/lib/site";
 
 function DownloadIcon() {
   return (
@@ -133,7 +132,7 @@ function CatalogPagination({
   );
 }
 
-export function ProductCatalog() {
+export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
   const router = useRouter();
   const searchParams = useSearchParams();
   const initialParams = useMemo(() => parseCatalogUrl(searchParams), [searchParams]);
@@ -457,7 +456,7 @@ export function ProductCatalog() {
               </li>
             </ul>
             <a
-              href={whatsappNotFoundUrl(site.whatsapp, activeQuery)}
+              href={whatsappNotFoundUrl(whatsappUrl, activeQuery)}
               target="_blank"
               rel="noopener noreferrer"
               className="mt-6 inline-flex min-h-11 items-center bg-signal px-4 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-white uppercase transition-colors hover:bg-[#c4242c] focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
@@ -483,7 +482,7 @@ export function ProductCatalog() {
                 </p>
                 <p className="text-body-md text-ice">{product.n}</p>
                 <a
-                  href={whatsappConsultUrl(site.whatsapp, product)}
+                  href={whatsappConsultUrl(whatsappUrl, product)}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="inline-flex min-h-10 items-center justify-center border border-ice/20 px-3 font-body text-[0.75rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:border-signal hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:justify-self-end"

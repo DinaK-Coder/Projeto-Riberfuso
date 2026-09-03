@@ -1,4 +1,4 @@
-import { homeSection, site } from "@/lib/site";
+import { homeSection, type SiteContent } from "@/lib/site";
 
 const buttonBase =
   "hero-btn inline-flex w-full items-center justify-center gap-2 px-5 font-body text-[0.8125rem] font-semibold tracking-[0.08em] uppercase transition-[color,background-color,border-color,transform] duration-200 focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-void focus-visible:outline-none active:translate-y-px sm:text-sm lg:w-auto lg:min-w-[13rem] lg:px-6";
@@ -71,7 +71,7 @@ function DiffIcon({ type }: { type: (typeof differentials)[number]["icon"] }) {
   );
 }
 
-export function HeroCopy() {
+export function HeroCopy({ site }: { site: SiteContent }) {
   return (
     <div className="hero-copy flex w-full flex-col justify-center text-left">
       <div className="hero-main">

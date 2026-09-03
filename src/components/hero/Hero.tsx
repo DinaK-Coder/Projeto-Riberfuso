@@ -9,12 +9,13 @@ import { HeroCopy } from "./HeroCopy";
 import { HeroPreloader } from "./HeroPreloader";
 import { HERO_BOSCH_PANELS } from "./heroPanels";
 import { loadHeroAssets } from "./loadHeroAssets";
+import type { SiteContent } from "@/lib/site";
 
 gsap.registerPlugin(ScrollTrigger);
 
 const PANEL_PARALLAX = [2, 4, 5, 3] as const;
 
-export function Hero() {
+export function Hero({ site }: { site: SiteContent }) {
   const sectionRef = useRef<HTMLElement>(null);
   const preloaderRef = useRef<HTMLDivElement>(null);
   const [progress, setProgress] = useState(0);
@@ -349,6 +350,7 @@ export function Hero() {
         ref={preloaderRef}
         progress={progress}
         visible={showPreloader}
+        site={site}
       />
 
       <section
@@ -391,7 +393,7 @@ export function Hero() {
         </div>
 
         <div className="hero-shell relative z-[1]">
-          <HeroCopy />
+          <HeroCopy site={site} />
         </div>
 
         <div

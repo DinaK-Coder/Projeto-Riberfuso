@@ -1,9 +1,13 @@
 import { ContactChannels } from "./ContactChannels";
 import { StoreCard } from "@/components/stores/StoreCard";
-import { site } from "@/lib/site";
-import { stores } from "@/lib/stores";
+import { getContactInfo, getSiteContent, getStores } from "@/lib/firebase/content";
 
-export function ContactPageContent() {
+export async function ContactPageContent() {
+  const [site, stores, contact] = await Promise.all([
+    getSiteContent(),
+    getStores(),
+    getContactInfo(),
+  ]);
   return (
     <div className="bg-void">
       <section className="border-b border-ice/10 bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
@@ -34,7 +38,7 @@ export function ContactPageContent() {
               de itens, o WhatsApp costuma ser o mais rápido.
             </p>
             <div className="mt-8">
-              <ContactChannels />
+              <ContactChannels contact={contact} site={site} />
             </div>
           </div>
 

@@ -1,7 +1,8 @@
-import { stores } from "@/lib/stores";
+import { getStores } from "@/lib/firebase/content";
 import { StoreCard } from "./StoreCard";
 
-export function Stores() {
+export async function Stores() {
+  const stores = await getStores();
   return (
     <section
       id="lojas"

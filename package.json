@@ -6,9 +6,11 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "firebase:seed": "tsx scripts/seed-firebase.ts"
   },
   "dependencies": {
+    "firebase": "^12.4.0",
     "gsap": "^3.14.2",
     "motion": "^13.1.1",
     "next": "^15.5.7",
@@ -24,6 +26,7 @@
     "eslint-config-next": "^15.5.7",
     "postcss": "^8.5.6",
     "tailwindcss": "^3.4.18",
+    "tsx": "^4.20.6",
     "typescript": "^5.9.3"
   }
 }

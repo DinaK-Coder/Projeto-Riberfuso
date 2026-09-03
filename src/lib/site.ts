@@ -1,4 +1,14 @@
-export const site = {
+export type SiteContent = {
+  name: string;
+  since: number;
+  city: string;
+  whatsapp: string;
+  logo: string;
+  storesSummary: string;
+  storesShort: string;
+};
+
+export const site: SiteContent = {
   name: "Riberfuso Vila Nova",
   since: 1991,
   city: "Poços de Caldas — MG",
@@ -6,7 +16,7 @@ export const site = {
   logo: "/brand/marca.png",
   storesSummary: "2 lojas em Poços de Caldas",
   storesShort: "Vila Nova + Centro · Poços de Caldas",
-} as const;
+};
 
 export function homeSection(id: string) {
   return `/#${id}`;

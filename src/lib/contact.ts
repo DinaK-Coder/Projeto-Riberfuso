@@ -1,4 +1,30 @@
-export const contact = {
+export type ContactPhone = {
+  label: string;
+  display: string;
+  href: string;
+};
+
+export type ContactInfo = {
+  phones: ContactPhone[];
+  whatsapp: {
+    display: string;
+    href: string;
+  };
+  email: {
+    display: string;
+    href: string;
+  };
+  social: {
+    instagram: {
+      label: string;
+      href: string;
+      handle: string;
+    };
+  };
+  hoursNote: string;
+};
+
+export const contact: ContactInfo = {
   phones: [
     { label: "Telefone", display: "(35) 3722-2754", href: "tel:+553537222754" },
     { label: "Telefone", display: "(35) 3722-3650", href: "tel:+553537223650" },
@@ -20,4 +46,4 @@ export const contact = {
   },
   hoursNote:
     "Horário de funcionamento sob consulta pelo WhatsApp ou telefone.",
-} as const;
+};

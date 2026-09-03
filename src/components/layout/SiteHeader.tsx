@@ -1,8 +1,10 @@
 import Image from "next/image";
 import Link from "next/link";
-import { navLinks, site } from "@/lib/site";
+import { getSiteContent } from "@/lib/firebase/content";
+import { navLinks } from "@/lib/site";
 
-export function SiteHeader() {
+export async function SiteHeader() {
+  const site = await getSiteContent();
   return (
     <header className="sticky top-0 z-50 bg-void shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
       <div className="mx-auto flex w-full max-w-[90rem] items-center gap-5 px-4 py-3.5 sm:px-8 lg:px-12">
