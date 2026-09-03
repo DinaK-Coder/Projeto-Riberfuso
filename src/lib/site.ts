@@ -28,6 +28,7 @@ export const navLinks = [
   { href: "/catalogo", label: "Catálogo" },
   { href: homeSection("marcas"), label: "Marcas" },
   { href: homeSection("sobre"), label: "Sobre" },
+  { href: homeSection("novidades"), label: "Novidades" },
   { href: homeSection("lojas"), label: "Nossas lojas" },
   { href: "/contato", label: "Contato" },
 ] as const;

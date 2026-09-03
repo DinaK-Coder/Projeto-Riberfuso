@@ -1,20 +1,16 @@
 "use client";
 
-import Image from "next/image";
 import { forwardRef } from "react";
 import type { SiteContent } from "@/lib/site";
 
 type HeroPreloaderProps = {
-  progress: number;
   visible: boolean;
   site: SiteContent;
 };
 
 export const HeroPreloader = forwardRef<HTMLDivElement, HeroPreloaderProps>(
-  function HeroPreloader({ progress, visible, site }, ref) {
+  function HeroPreloader({ visible, site }, ref) {
     if (!visible) return null;
-
-    const pct = Math.round(Math.min(Math.max(progress, 0), 1) * 100);
 
     return (
       <div
@@ -26,12 +22,14 @@ export const HeroPreloader = forwardRef<HTMLDivElement, HeroPreloaderProps>(
         aria-label="Carregando a página"
       >
         <div className="hero-preloader-inner">
-          <Image
+          <img
             src={site.logo}
             alt={site.name}
             width={612}
             height={321}
-            unoptimized
+            decoding="async"
+            fetchPriority="high"
+            draggable={false}
             className="hero-preloader-logo"
             data-hero-preloader-logo
           />
@@ -39,7 +37,7 @@ export const HeroPreloader = forwardRef<HTMLDivElement, HeroPreloaderProps>(
             <span className="hero-preloader-bar" data-hero-preloader-bar />
           </div>
           <p className="hero-preloader-pct" data-hero-preloader-pct>
-            {pct}%
+            0%
           </p>
         </div>
       </div>

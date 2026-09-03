@@ -4,6 +4,7 @@ import { Hero } from "@/components/hero/Hero";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Stores } from "@/components/stores/Stores";
+import { Videos } from "@/components/videos/Videos";
 import { getSiteContent } from "@/lib/firebase/content";
 
 const Catalog = dynamic(() =>
@@ -26,6 +27,7 @@ export default async function HomePage() {
       <Catalog />
       <Partners />
       <History />
+      <Videos />
       <Stores />
       <ContactPreview />
       <SiteFooter />

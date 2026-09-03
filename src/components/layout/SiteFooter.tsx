@@ -87,6 +87,14 @@ export async function SiteFooter() {
             >
               {contact.social.instagram.handle}
             </a>
+            <a
+              href={contact.social.youtube.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block transition-colors hover:text-signal"
+            >
+              YouTube {contact.social.youtube.handle}
+            </a>
           </div>
         </div>
       </div>

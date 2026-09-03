@@ -20,6 +20,11 @@ export type ContactInfo = {
       href: string;
       handle: string;
     };
+    youtube: {
+      label: string;
+      href: string;
+      handle: string;
+    };
   };
   hoursNote: string;
 };
@@ -42,6 +47,11 @@ export const contact: ContactInfo = {
       label: "Instagram",
       href: "https://www.instagram.com/riberfusovilanova/",
       handle: "@riberfusovilanova",
+    },
+    youtube: {
+      label: "YouTube",
+      href: "https://www.youtube.com/@manualdasferramentas",
+      handle: "@manualdasferramentas",
     },
   },
   hoursNote:

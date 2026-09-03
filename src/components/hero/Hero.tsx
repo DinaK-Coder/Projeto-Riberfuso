@@ -18,7 +18,6 @@ const PANEL_PARALLAX = [2, 4, 5, 3] as const;
 export function Hero({ site }: { site: SiteContent }) {
   const sectionRef = useRef<HTMLElement>(null);
   const preloaderRef = useRef<HTMLDivElement>(null);
-  const [progress, setProgress] = useState(0);
   const [showPreloader, setShowPreloader] = useState(true);
 
   useEffect(() => {
@@ -82,6 +81,7 @@ export function Hero({ site }: { site: SiteContent }) {
         if (reduced) {
           if (preloader) gsap.set(preloader, { autoAlpha: 0 });
           forceReady();
+          setupAmbient();
           return;
         }
 
@@ -118,6 +118,7 @@ export function Hero({ site }: { site: SiteContent }) {
               });
             }
             setShowPreloader(false);
+            setupAmbient();
           },
         });
 
@@ -146,9 +147,10 @@ export function Hero({ site }: { site: SiteContent }) {
           master.to(
             preloader,
             {
-              clipPath: "inset(0 0 100% 0)",
+              yPercent: -100,
               duration: fastExit ? 0.4 : 0.55,
               ease: "power3.inOut",
+              force3D: true,
               onComplete: () => {
                 gsap.set(preloader, { pointerEvents: "none" });
               },
@@ -303,25 +305,66 @@ export function Hero({ site }: { site: SiteContent }) {
         }
       };
 
+      const progressState = { value: 0.04 };
+      let lastPct = 4;
+      const barEl = preloaderRef.current?.querySelector<HTMLElement>(
+        "[data-hero-preloader-bar]",
+      );
+      const pctEl = preloaderRef.current?.querySelector<HTMLElement>(
+        "[data-hero-preloader-pct]",
+      );
+
+      const paintProgress = () => {
+        const bar =
+          barEl ??
+          preloaderRef.current?.querySelector<HTMLElement>("[data-hero-preloader-bar]");
+        const pct =
+          pctEl ??
+          preloaderRef.current?.querySelector<HTMLElement>("[data-hero-preloader-pct]");
+        if (bar) gsap.set(bar, { scaleX: progressState.value, force3D: true });
+        if (pct) {
+          const next = Math.round(progressState.value * 100);
+          if (next !== lastPct) {
+            lastPct = next;
+            pct.textContent = `${next}%`;
+          }
+        }
+      };
+
+      const tweenProgress = (ratio: number, duration: number, ease = "power2.out") => {
+        gsap.to(progressState, {
+          value: Math.min(Math.max(ratio, 0.04), 1),
+          duration,
+          ease,
+          overwrite: true,
+          onUpdate: paintProgress,
+        });
+      };
+
+      tweenProgress(0.72, 1.6, "power1.out");
+
       void (async () => {
         const started = performance.now();
         await loadHeroAssets(section, ({ ratio }) => {
-          if (cancelled) return;
-          setProgress(ratio);
-          const bar = preloaderRef.current?.querySelector<HTMLElement>(
-            "[data-hero-preloader-bar]",
-          );
-          if (bar) gsap.set(bar, { scaleX: Math.max(ratio, 0.04) });
+          if (cancelled || ratio <= 0) return;
+          tweenProgress(Math.max(ratio * 0.92, progressState.value), 0.45);
         });
         if (cancelled) return;
 
         const elapsed = performance.now() - started;
         const fastExit = elapsed < 400;
-        setProgress(1);
-        playEntrance(fastExit);
-        window.requestAnimationFrame(() => {
-          if (!cancelled) setupAmbient();
+        await new Promise<void>((resolve) => {
+          gsap.to(progressState, {
+            value: 1,
+            duration: fastExit ? 0.16 : 0.28,
+            ease: "power2.out",
+            overwrite: true,
+            onUpdate: paintProgress,
+            onComplete: resolve,
+          });
         });
+        if (cancelled) return;
+        playEntrance(fastExit);
       })();
 
       failsafe = window.setTimeout(() => {
@@ -346,7 +389,6 @@ export function Hero({ site }: { site: SiteContent }) {
     <>
       <HeroPreloader
         ref={preloaderRef}
-        progress={progress}
         visible={showPreloader}
         site={site}
       />

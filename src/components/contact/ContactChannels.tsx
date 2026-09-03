@@ -54,15 +54,27 @@ export function ContactChannels({
 
       <article className="contact-card">
         <p className="font-body text-kicker text-signal uppercase">Redes sociais</p>
-        <a
-          href={contact.social.instagram.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="contact-card-link"
-        >
-          {contact.social.instagram.handle}
-        </a>
-        <p className="mt-2 text-body-md text-mute">Novidades e bastidores da Riberfuso</p>
+        <div className="mt-2 flex flex-col items-start gap-1">
+          <a
+            href={contact.social.instagram.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contact-card-link"
+          >
+            {contact.social.instagram.handle}
+          </a>
+          <a
+            href={contact.social.youtube.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contact-card-link"
+          >
+            {contact.social.youtube.handle}
+          </a>
+        </div>
+        <p className="mt-2 text-body-md text-mute">
+          Instagram e YouTube — bastidores e vídeos do Manual das Ferramentas
+        </p>
       </article>
 
       <article className="contact-card sm:col-span-2">

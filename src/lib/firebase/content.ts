@@ -44,6 +44,7 @@ function parseContact(data: Record<string, unknown>): ContactInfo | null {
 
   const instagram = isRecord(data.social.instagram) ? data.social.instagram : null;
   if (!instagram) return null;
+  const youtube = isRecord(data.social.youtube) ? data.social.youtube : {};
 
   const phones = Array.isArray(data.phones)
     ? data.phones.flatMap((phone) => {
@@ -75,6 +76,11 @@ function parseContact(data: Record<string, unknown>): ContactInfo | null {
         label: asString(instagram.label, "Instagram"),
         href: asString(instagram.href),
         handle: asString(instagram.handle),
+      },
+      youtube: {
+        label: asString(youtube.label, fallbackContact.social.youtube.label),
+        href: asString(youtube.href, fallbackContact.social.youtube.href),
+        handle: asString(youtube.handle, fallbackContact.social.youtube.handle),
       },
     },
     hoursNote: asString(data.hoursNote, fallbackContact.hoursNote),
