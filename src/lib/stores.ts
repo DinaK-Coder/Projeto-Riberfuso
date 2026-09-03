@@ -46,13 +46,6 @@ export const stores: Store[] = [
   },
 ];
 
-export const matrizStore = stores[0];
-export const filialStore = stores[1];
-
 export function storeLine(store: Store) {
   return `${store.neighborhood} · ${store.city} - ${store.state}`;
-}
-
-export function storeFullAddress(store: Store) {
-  return `${store.street} — ${store.neighborhood}, ${store.city} - ${store.state}`;
 }

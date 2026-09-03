@@ -225,20 +225,6 @@ export function searchByDescription(
     .map((item) => item.product);
 }
 
-/** @deprecated Use searchByCode or searchByDescription */
-export function filterProducts(products: CatalogProduct[], query: string) {
-  const q = normalizeSearch(query);
-  if (!q) return products;
-
-  const digits = q.replace(/\D/g, "");
-
-  return products.filter((product) => {
-    if (normalizeSearch(product.n).includes(q)) return true;
-    if (digits && product.c.includes(digits)) return true;
-    return normalizeSearch(product.c).includes(q);
-  });
-}
-
 export type CatalogSearchOptions = {
   categoryId?: string;
 };

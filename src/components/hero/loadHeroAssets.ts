@@ -1,6 +1,6 @@
 /**
- * Waits for Hero assets already requested by Next/Image in the DOM.
- * Does NOT create a second network fetch (that was doubling load time).
+ * Waits for the two priority Hero images already requested by Next/Image.
+ * Does not wait on fonts (display:swap) or the below-fold panels.
  */
 export type HeroLoadProgress = {
   loaded: number;
@@ -8,7 +8,7 @@ export type HeroLoadProgress = {
   ratio: number;
 };
 
-const SAFETY_TIMEOUT_MS = 1400;
+const SAFETY_TIMEOUT_MS = 800;
 
 function waitForImg(img: HTMLImageElement): Promise<void> {
   if (img.complete && img.naturalWidth > 0) return Promise.resolve();
@@ -30,8 +30,8 @@ export function loadHeroAssets(
 ): Promise<void> {
   const imgs = Array.from(
     root.querySelectorAll<HTMLImageElement>("[data-hero-panel] img"),
-  );
-  const total = Math.max(imgs.length, 1) + 1; // images + fonts
+  ).slice(0, 2);
+  const total = Math.max(imgs.length, 1);
   let loaded = 0;
 
   const bump = () => {
@@ -50,9 +50,7 @@ export function loadHeroAssets(
       ? imgs.map((img) => waitForImg(img).finally(bump))
       : [Promise.resolve().finally(bump)];
 
-  const fontTask = (document.fonts?.ready ?? Promise.resolve()).finally(bump);
-
-  const all = Promise.all([...imageTasks, fontTask]).then(() => undefined);
+  const all = Promise.all(imageTasks).then(() => undefined);
 
   const safety = new Promise<void>((resolve) => {
     window.setTimeout(() => {

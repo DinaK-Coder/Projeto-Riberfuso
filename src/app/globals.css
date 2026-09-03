@@ -31,6 +31,7 @@
 html,
 body {
   background: var(--void);
+  overflow-x: clip;
 }
 
 html {
@@ -70,10 +71,6 @@ html {
 
 .bg-brand {
   background-color: var(--brand);
-}
-
-.text-brand {
-  color: var(--brand);
 }
 
 /* Ritmo visual — navy do logo + brilhos vermelho/azul do monograma RF */
@@ -239,10 +236,6 @@ html {
 
 .hero-photo-pos-hammer {
   object-position: 48% 38%;
-}
-
-.hero-photo-pos-circular {
-  object-position: 48% 42%;
 }
 
 .hero-gradient-protect {
@@ -458,10 +451,6 @@ html {
     object-position: 50% 40%;
   }
 
-  .hero-photo-pos-circular {
-    object-position: 50% 44%;
-  }
-
   .hero-gradient-protect {
     background:
       linear-gradient(
@@ -527,7 +516,6 @@ html {
 
 .brand-strip-track {
   animation: brand-strip 42s linear infinite;
-  will-change: transform;
 }
 
 .brand-strip-track--reverse {

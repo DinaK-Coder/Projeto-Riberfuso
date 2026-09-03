@@ -18,7 +18,6 @@ const config: Config = {
       fontFamily: {
         display: ["var(--font-outfit)", "system-ui", "sans-serif"],
         body: ["var(--font-outfit)", "system-ui", "sans-serif"],
-        mono: ["var(--font-mono)", "ui-monospace", "monospace"],
       },
       fontSize: {
         "display-xl": [

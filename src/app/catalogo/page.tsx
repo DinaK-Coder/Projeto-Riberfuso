@@ -1,11 +1,25 @@
 import { Suspense } from "react";
 import type { Metadata } from "next";
+import dynamic from "next/dynamic";
 import Link from "next/link";
-import { ProductCatalog } from "@/components/catalog/ProductCatalog";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getSiteContent } from "@/lib/firebase/content";
 import { homeSection, site } from "@/lib/site";
+
+const ProductCatalog = dynamic(
+  () =>
+    import("@/components/catalog/ProductCatalog").then(
+      (module) => module.ProductCatalog,
+    ),
+  {
+    loading: () => (
+      <p className="text-body-md text-mute" role="status">
+        Carregando catálogo…
+      </p>
+    ),
+  },
+);
 
 export const metadata: Metadata = {
   title: `Catálogo | ${site.name}`,

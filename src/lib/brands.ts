@@ -272,7 +272,7 @@ export const brands: Brand[] = [
   {
     id: "tekbond",
     name: "Tekbond",
-    logoSrc: "/brands/Logo_Tekbond_Tradicional.jpg",
+    logoSrc: "/brands/tekbond.webp",
     matte: "plain",
     assetReady: true,
     classification: "Uso doméstico, profissional e industrial",

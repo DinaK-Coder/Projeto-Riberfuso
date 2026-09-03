@@ -166,12 +166,6 @@ export function buildShortcutCatalogUrl(shortcut: CatalogShortcut): string {
   return buildCatalogUrl({ q: shortcut.abbreviation });
 }
 
-export const FEATURED_SHORTCUTS = CATALOG_SHORTCUTS.filter((item) => item.featured);
-
-export function shortcutsByGroup(group: ShortcutGroup): CatalogShortcut[] {
-  return CATALOG_SHORTCUTS.filter((item) => item.group === group);
-}
-
 export type ResolvedDescriptionSearch = {
   terms: string;
   excludePattern?: RegExp;
@@ -224,8 +218,4 @@ export function resolveDescriptionSearch(query: string): ResolvedDescriptionSear
   }
 
   return { terms: trimmed };
-}
-
-export function resolveDescriptionQuery(query: string): string {
-  return resolveDescriptionSearch(query).terms;
 }

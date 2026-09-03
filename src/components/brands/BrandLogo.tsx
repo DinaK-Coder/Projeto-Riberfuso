@@ -212,6 +212,8 @@ export function BrandLogo({ brand, featured = false }: BrandLogoProps) {
         src={src}
         alt={brandAlt(brand)}
         className={imageClass}
+        loading={featured ? "eager" : "lazy"}
+        decoding="async"
         referrerPolicy="no-referrer"
         onError={() => setFailed(true)}
       />

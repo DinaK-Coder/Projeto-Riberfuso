@@ -1,5 +1,5 @@
-import type { Metadata } from "next";
-import { Geist_Mono, Outfit } from "next/font/google";
+import type { Metadata, Viewport } from "next";
+import { Outfit } from "next/font/google";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -9,12 +9,13 @@ const outfit = Outfit({
   display: "swap",
 });
 
-const mono = Geist_Mono({
-  subsets: ["latin"],
-  variable: "--font-mono",
-});
-
 export const revalidate = 120;
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  themeColor: "#0f1624",
+};
 
 export const metadata: Metadata = {
   title: "Riberfuso Vila Nova | Parafusos e ferramentas em Poços de Caldas",
@@ -39,7 +40,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body
-        className={`${outfit.variable} ${mono.variable} bg-void font-body text-base text-ice antialiased`}
+        className={`${outfit.variable} bg-void font-body text-base text-ice antialiased`}
         suppressHydrationWarning
       >
         {children}

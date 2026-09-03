@@ -31,7 +31,6 @@ export const HeroPreloader = forwardRef<HTMLDivElement, HeroPreloaderProps>(
             alt={site.name}
             width={612}
             height={321}
-            priority
             unoptimized
             className="hero-preloader-logo"
             data-hero-preloader-logo

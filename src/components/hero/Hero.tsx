@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { prefersReducedMotion } from "@/lib/prefers-motion";
+import { prefersLiteExperience } from "@/lib/prefers-motion";
 import { HeroCopy } from "./HeroCopy";
 import { HeroPreloader } from "./HeroPreloader";
 import { HERO_BOSCH_PANELS } from "./heroPanels";
@@ -29,7 +29,7 @@ export function Hero({ site }: { site: SiteContent }) {
     let mouseMove: ((event: MouseEvent) => void) | null = null;
     let refreshRect: (() => void) | null = null;
     let failsafe = 0;
-    const reduced = prefersReducedMotion();
+    const reduced = prefersLiteExperience();
     const isMobile =
       window.matchMedia("(max-width: 767px)").matches ||
       window.matchMedia("(pointer: coarse)").matches;
@@ -109,7 +109,7 @@ export function Hero({ site }: { site: SiteContent }) {
             // Guarantee slogan lines are visible even if a tween glitched
             gsap.set(lines, { clearProps: "transform" });
             gsap.set(".hero-photo-motion", { clearProps: "willChange" });
-            if (scrollLine) {
+            if (scrollLine && !isMobile) {
               gsap.to(scrollLine, {
                 scaleY: 0.35,
                 duration: 0.9,
@@ -329,7 +329,7 @@ export function Hero({ site }: { site: SiteContent }) {
       failsafe = window.setTimeout(() => {
         if (cancelled) return;
         if (section.dataset.heroState !== "ready") forceReady();
-      }, 3200);
+      }, 1800);
     }, section);
 
     return () => {
@@ -375,7 +375,7 @@ export function Hero({ site }: { site: SiteContent }) {
                       alt=""
                       fill
                       priority={index < 2}
-                      quality={75}
+                      quality={72}
                       sizes="(max-width: 768px) 50vw, 25vw"
                       className={`hero-photo object-cover ${panel.positionClass}`}
                     />
