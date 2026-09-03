@@ -10,6 +10,22 @@ type BrandStripProps = {
   reducedMotion: boolean;
 };
 
+function Chevron({ direction }: { direction: "prev" | "next" }) {
+  return (
+    <svg viewBox="0 0 20 20" className="h-4 w-4" fill="none" aria-hidden>
+      <path
+        d={direction === "prev" ? "M12 4 6 10l6 6" : "M8 4l6 6-6 6"}
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+    </svg>
+  );
+}
+
+const PLATE_STEP_PX = 13.5 * 16 + 12;
+
 function plateIdFromPoint(clientX: number, clientY: number): string | null {
   const stack = document.elementsFromPoint(clientX, clientY);
   for (const node of stack) {
@@ -78,14 +94,20 @@ function StripRow({
 export function BrandStrip({ brands, reducedMotion }: BrandStripProps) {
   const [hoverId, setHoverId] = useState<string | null>(null);
   const [selectedId, setSelectedId] = useState<string | null>(null);
+  const [navPaused, setNavPaused] = useState(false);
+  const [canPrev, setCanPrev] = useState(false);
+  const [canNext, setCanNext] = useState(true);
   const selectedRef = useRef<string | null>(null);
   const hoverIdRef = useRef<string | null>(null);
   const pointerRef = useRef({ inside: false, x: 0, y: 0, type: "" });
   const rafRef = useRef<number | null>(null);
+  const stripRef = useRef<HTMLDivElement>(null);
+  const scrollerRef = useRef<HTMLDivElement>(null);
+  const pauseTimerRef = useRef<number | null>(null);
 
   const activeId = hoverId ?? selectedId;
   const active = brands.find((brand) => brand.id === activeId) ?? null;
-  const paused = Boolean(selectedId) || reducedMotion;
+  const paused = Boolean(selectedId) || reducedMotion || navPaused;
 
   const rowA = brands.filter((_, index) => index % 2 === 0);
   const rowB = brands.filter((_, index) => index % 2 === 1);
@@ -114,8 +136,82 @@ export function BrandStrip({ brands, reducedMotion }: BrandStripProps) {
   useEffect(() => {
     return () => {
       if (rafRef.current != null) cancelAnimationFrame(rafRef.current);
+      if (pauseTimerRef.current != null) window.clearTimeout(pauseTimerRef.current);
     };
   }, []);
+
+  const updateScrollArrows = useCallback(() => {
+    const track = scrollerRef.current;
+    if (!track) return;
+    const max = track.scrollWidth - track.clientWidth;
+    setCanPrev(track.scrollLeft > 4);
+    setCanNext(track.scrollLeft < max - 4);
+  }, []);
+
+  useEffect(() => {
+    const track = scrollerRef.current;
+    if (!track || !reducedMotion) return;
+
+    updateScrollArrows();
+    track.addEventListener("scroll", updateScrollArrows, { passive: true });
+    window.addEventListener("resize", updateScrollArrows);
+
+    return () => {
+      track.removeEventListener("scroll", updateScrollArrows);
+      window.removeEventListener("resize", updateScrollArrows);
+    };
+  }, [reducedMotion, updateScrollArrows]);
+
+  const nudgeMarquee = useCallback((direction: -1 | 1) => {
+    const root = stripRef.current;
+    if (!root) return;
+
+    root.querySelectorAll<HTMLElement>(".brand-strip-track").forEach((track) => {
+      const anim = track.getAnimations()[0];
+      const effect = anim?.effect;
+      if (!anim || !effect || !("getComputedTiming" in effect)) return;
+
+      const duration = Number(effect.getComputedTiming().duration) || 42000;
+      const loopWidth = track.scrollWidth / 2;
+      if (!loopWidth) return;
+
+      const step = Math.min(loopWidth * 0.28, PLATE_STEP_PX * 2.25);
+      const delta = direction * (step / loopWidth) * duration;
+      const current = Number(anim.currentTime) || 0;
+      anim.currentTime = current + delta;
+    });
+
+    setNavPaused(true);
+    if (pauseTimerRef.current != null) window.clearTimeout(pauseTimerRef.current);
+    pauseTimerRef.current = window.setTimeout(() => {
+      setNavPaused(false);
+      pauseTimerRef.current = null;
+    }, 850);
+  }, []);
+
+  const scrollStrip = useCallback(
+    (direction: -1 | 1) => {
+      const track = scrollerRef.current;
+      if (!track) return;
+      const amount = Math.max(track.clientWidth * 0.7, PLATE_STEP_PX * 2);
+      track.scrollBy({
+        left: direction * amount,
+        behavior: reducedMotion ? "auto" : "smooth",
+      });
+    },
+    [reducedMotion],
+  );
+
+  const onStep = useCallback(
+    (direction: -1 | 1) => {
+      if (reducedMotion) {
+        scrollStrip(direction);
+        return;
+      }
+      nudgeMarquee(direction);
+    },
+    [nudgeMarquee, reducedMotion, scrollStrip],
+  );
 
   const onPointerSample = useCallback(
     (event: React.PointerEvent<HTMLDivElement>) => {
@@ -189,8 +285,32 @@ export function BrandStrip({ brands, reducedMotion }: BrandStripProps) {
 
   return (
     <div>
+      <div className="mb-5 flex items-center justify-between gap-3">
+        <p className="font-body text-kicker text-mute uppercase">Também no balcão</p>
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            aria-label="Marcas anteriores"
+            disabled={reducedMotion && !canPrev}
+            onClick={() => onStep(-1)}
+            className="inline-flex h-11 w-11 items-center justify-center border border-ice/15 bg-steel/40 text-ice transition-colors hover:border-signal/60 hover:bg-signal hover:text-white disabled:cursor-not-allowed disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
+          >
+            <Chevron direction="prev" />
+          </button>
+          <button
+            type="button"
+            aria-label="Próximas marcas"
+            disabled={reducedMotion && !canNext}
+            onClick={() => onStep(1)}
+            className="inline-flex h-11 w-11 items-center justify-center border border-ice/15 bg-steel/40 text-ice transition-colors hover:border-signal/60 hover:bg-signal hover:text-white disabled:cursor-not-allowed disabled:opacity-30 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
+          >
+            <Chevron direction="next" />
+          </button>
+        </div>
+      </div>
       {reducedMotion ? (
         <div
+          ref={scrollerRef}
           className="flex gap-3 overflow-x-auto pb-2 [-ms-overflow-style:none] [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
           onPointerEnter={onPointerSample}
           onPointerMove={onPointerSample}
@@ -200,7 +320,8 @@ export function BrandStrip({ brands, reducedMotion }: BrandStripProps) {
         </div>
       ) : (
         <div
-          className="brand-strip relative overflow-hidden border border-white/10 bg-ink py-3"
+          ref={stripRef}
+          className="brand-strip relative overflow-hidden py-1"
           onPointerEnter={onPointerSample}
           onPointerMove={onPointerSample}
           onPointerLeave={onPointerLeaveStrip}
@@ -230,8 +351,8 @@ export function BrandStrip({ brands, reducedMotion }: BrandStripProps) {
               onToggle={onToggle}
             />
           </div>
-          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-ink to-transparent sm:w-16" />
-          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-ink to-transparent sm:w-16" />
+          <div className="pointer-events-none absolute inset-y-0 left-0 w-10 bg-gradient-to-r from-steel to-transparent sm:w-16" />
+          <div className="pointer-events-none absolute inset-y-0 right-0 w-10 bg-gradient-to-l from-steel to-transparent sm:w-16" />
         </div>
       )}
       <BrandInfoPanel active={active} reducedMotion={reducedMotion} />
@@ -249,7 +370,7 @@ function BrandInfoPanel({
   return (
     <div
       id="brand-info-panel"
-      className="mt-5 min-h-[17rem] overflow-hidden border border-white/10 bg-ink px-5 py-5 sm:min-h-[15.5rem] sm:px-6 sm:py-6"
+      className="mt-5 min-h-[8.5rem] overflow-hidden border border-white/8 bg-ink/70 px-5 py-5 sm:min-h-[8rem] sm:px-6 sm:py-6"
       aria-live="polite"
       aria-atomic="true"
     >

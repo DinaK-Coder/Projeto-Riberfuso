@@ -12,7 +12,7 @@ export async function SiteFooter() {
   const year = new Date().getFullYear();
 
   return (
-    <footer className="border-t border-ice/10 bg-ink px-6 py-12 sm:px-10 lg:px-16">
+    <footer className="border-t border-ice/10 bg-ink px-6 py-12 pb-[max(3rem,env(safe-area-inset-bottom))] sm:px-10 lg:px-16">
       <div className="mx-auto grid max-w-[90rem] gap-10 lg:grid-cols-[1.15fr_0.85fr_1.2fr] lg:gap-12">
         <div>
           <Link href="/" className="inline-block" aria-label="Voltar ao início">

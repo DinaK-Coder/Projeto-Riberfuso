@@ -92,21 +92,20 @@ export function Hero({ site }: { site: SiteContent }) {
         gsap.set(photos, { scale: 1.04, xPercent: 1 });
         gsap.set([kicker, lead, scrollHint].filter(Boolean), {
           autoAlpha: 0,
-          y: 10,
+          y: 12,
         });
         gsap.set(slogan, { autoAlpha: 1 });
-        gsap.set(lines, { yPercent: 105, force3D: true });
-        gsap.set(ctas, { autoAlpha: 0, y: 12, scale: 0.98 });
+        gsap.set(lines, { autoAlpha: 0, y: 22 });
+        gsap.set(ctas, { autoAlpha: 0, y: 12 });
         gsap.set(diffs, { autoAlpha: 0, y: 10 });
         if (scrollLine) {
           gsap.set(scrollLine, { scaleY: 0, transformOrigin: "top center" });
         }
 
         const master = gsap.timeline({
-          defaults: { ease: "power3.out" },
+          defaults: { ease: "power2.out" },
           onComplete: () => {
             section.dataset.heroState = "ready";
-            // Guarantee slogan lines are visible even if a tween glitched
             gsap.set(lines, { clearProps: "transform" });
             gsap.set(".hero-photo-motion", { clearProps: "willChange" });
             if (scrollLine && !isMobile) {
@@ -158,55 +157,54 @@ export function Hero({ site }: { site: SiteContent }) {
           );
         }
 
-        // Photos — wave L→R (shorter)
         master.to(
           panels,
           {
             clipPath: "inset(0 0% 0 0)",
-            duration: isMobile ? 0.55 : 0.75,
-            stagger: 0.09,
+            duration: isMobile ? 0.7 : 0.95,
+            stagger: 0.08,
             ease: "power3.inOut",
           },
-          "-=0.22",
+          "-=0.12",
         );
         master.to(
           photos,
           {
             scale: 1,
             xPercent: 0,
-            duration: isMobile ? 0.8 : 1,
-            stagger: 0.09,
+            duration: isMobile ? 0.9 : 1.15,
+            stagger: 0.08,
             ease: "power2.out",
           },
           "<",
         );
 
         if (kicker) {
-          master.to(kicker, { autoAlpha: 1, y: 0, duration: 0.35 }, "-=0.55");
+          master.to(kicker, { autoAlpha: 1, y: 0, duration: 0.4 }, "-=0.45");
         }
 
-        // Slogan by line — critical
         if (lines.length) {
           master.to(
             lines,
             {
-              yPercent: 0,
-              duration: 0.55,
-              stagger: 0.1,
-              ease: "power4.out",
+              autoAlpha: 1,
+              y: 0,
+              duration: 0.58,
+              stagger: 0.14,
+              ease: "power3.out",
             },
-            "-=0.28",
+            "-=0.18",
           );
         }
 
         if (lead) {
-          master.to(lead, { autoAlpha: 1, y: 0, duration: 0.35 }, "-=0.28");
+          master.to(lead, { autoAlpha: 1, y: 0, duration: 0.42 }, "-=0.28");
         }
 
         if (ctas.length) {
           master.to(
             ctas,
-            { autoAlpha: 1, y: 0, scale: 1, duration: 0.35, stagger: 0.06 },
+            { autoAlpha: 1, y: 0, duration: 0.38, stagger: 0.07 },
             "-=0.18",
           );
         }
@@ -214,18 +212,18 @@ export function Hero({ site }: { site: SiteContent }) {
         if (diffs.length) {
           master.to(
             diffs,
-            { autoAlpha: 1, y: 0, duration: 0.35, stagger: 0.07 },
-            "-=0.14",
+            { autoAlpha: 1, y: 0, duration: 0.36, stagger: 0.07 },
+            "-=0.16",
           );
         }
 
         if (scrollHint) {
-          master.to(scrollHint, { autoAlpha: 1, y: 0, duration: 0.3 }, "-=0.1");
+          master.to(scrollHint, { autoAlpha: 1, y: 0, duration: 0.45 }, "-=0.08");
         }
         if (scrollLine) {
           master.to(
             scrollLine,
-            { scaleY: 1, duration: 0.35, ease: "power2.out" },
+            { scaleY: 1, duration: 0.45, ease: "power2.out" },
             "-=0.2",
           );
         }
@@ -328,8 +326,8 @@ export function Hero({ site }: { site: SiteContent }) {
 
       failsafe = window.setTimeout(() => {
         if (cancelled) return;
-        if (section.dataset.heroState !== "ready") forceReady();
-      }, 1800);
+        if (section.dataset.heroState === "pending") forceReady();
+      }, 4000);
     }, section);
 
     return () => {

@@ -114,16 +114,14 @@ export function BrandPlate({
           resetMedia();
         }
       }}
-      className={`relative flex cursor-pointer items-center justify-center overflow-hidden border border-white/12 bg-panel p-[5px] text-[#1A1C20] transition-[opacity,box-shadow] duration-300 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-steel focus-visible:outline-none ${
-        compact ? "h-[6.25rem] w-full shrink-0" : "aspect-[5/3] w-full min-w-0"
-      } ${active ? "z-10" : "z-0"} ${dimmed ? "opacity-[0.38]" : "opacity-100"}`}
+      className={`relative flex cursor-pointer items-center justify-center overflow-hidden border border-white/10 bg-[#f3f4f7] text-[#1A1C20] transition-[opacity,border-color,box-shadow] duration-300 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-steel focus-visible:outline-none ${
+        compact ? "h-[6.5rem] w-full shrink-0" : "aspect-[5/3] w-full min-w-0"
+      } ${active ? "z-10 border-signal/80 shadow-[0_0_0_1px_#e83038]" : "z-0"} ${dimmed ? "opacity-[0.42]" : "opacity-100"}`}
       style={{
         colorScheme: "light",
-        outline: active ? "2px solid #E83038" : "1px solid transparent",
-        outlineOffset: "-1px",
       }}
     >
-      <span className="relative flex h-full w-full items-center justify-center overflow-hidden bg-white">
+      <span className="relative flex h-full w-full items-center justify-center overflow-hidden">
         <span ref={mediaRef} className="relative z-[1] flex h-full w-full items-center justify-center">
           <BrandLogo brand={brand} />
         </span>

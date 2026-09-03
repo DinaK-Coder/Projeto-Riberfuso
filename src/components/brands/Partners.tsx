@@ -74,9 +74,6 @@ export function Partners() {
       <BoschFeature brand={featuredBrand} reducedMotion={reduced} />
 
       <div className="mt-12 lg:mt-14">
-        <p className="mb-5 font-body text-kicker text-mute uppercase">
-          Também no balcão
-        </p>
         <BrandStrip brands={secondaryBrands} reducedMotion={reduced} />
       </div>
     </section>

@@ -17,7 +17,7 @@ export function ShortcutCard({ shortcut }: ShortcutCardProps) {
     <Link
       href={href}
       data-shortcut-card
-      className="group flex h-full min-h-[7.5rem] w-[15.5rem] shrink-0 flex-col justify-between border border-ice/10 bg-steel/20 px-4 py-4 transition-[border-color,background-color] duration-250 hover:border-signal/40 hover:bg-steel/35 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:w-[17rem] sm:px-5 sm:py-5"
+      className="group flex h-full min-h-[7.25rem] w-[min(15.5rem,calc(100vw-3.25rem))] shrink-0 flex-col justify-between border border-ice/10 bg-steel/20 px-4 py-4 transition-[border-color,background-color] duration-250 hover:border-signal/40 hover:bg-steel/35 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:min-h-[7.5rem] sm:w-[17rem] sm:px-5 sm:py-5"
     >
       <div>
         <p className="font-body text-[0.625rem] tracking-[0.14em] text-signal uppercase">
