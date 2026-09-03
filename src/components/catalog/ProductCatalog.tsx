@@ -2,9 +2,9 @@
 
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
 import gsap from "gsap";
-import { useRouter, useSearchParams } from "next/navigation";
 import { CATALOG_SHORTCUTS } from "@/lib/catalog-shortcuts";
-import { buildCatalogUrl, parseCatalogUrl } from "@/lib/catalog-url";
+import type { ParsedCatalogUrl } from "@/lib/catalog-url";
+import { useCatalogSearchState } from "./useCatalogSearchState";
 import {
   CATALOG_PDF_HREF,
   PAGE_SIZE,
@@ -132,23 +132,24 @@ function CatalogPagination({
   );
 }
 
-export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const initialParams = useMemo(() => parseCatalogUrl(searchParams), [searchParams]);
+export function ProductCatalog({
+  whatsappUrl,
+  initialSearch,
+}: {
+  whatsappUrl: string;
+  initialSearch: ParsedCatalogUrl;
+}) {
+  const { mode, setMode, query, setQuery, categoryId, setCategoryId } =
+    useCatalogSearchState(initialSearch);
 
   const [products, setProducts] = useState<CatalogProduct[]>([]);
   const [total, setTotal] = useState(0);
   const [status, setStatus] = useState<"loading" | "ready" | "error">("loading");
-  const [mode, setMode] = useState<CatalogSearchMode>(initialParams.mode);
-  const [query, setQuery] = useState(initialParams.q);
-  const [categoryId, setCategoryId] = useState(initialParams.categoria);
   const [page, setPage] = useState(1);
   const panelRef = useRef<HTMLDivElement>(null);
   const catalogTopRef = useRef<HTMLDivElement>(null);
   const prevMode = useRef(mode);
   const scrollAfterPageChange = useRef(false);
-  const urlReady = useRef(false);
 
   const deferredQuery = useDeferredValue(query);
   const activeQuery = mode === "code" ? query.trim() : deferredQuery.trim();
@@ -156,30 +157,6 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
   const hasQuery = activeQuery.length > 0;
   const hasCategory = categoryId.length > 0;
   const categoryName = hasCategory ? categoryLabel(categoryId) : "";
-
-  useEffect(() => {
-    const next = parseCatalogUrl(searchParams);
-    setMode(next.mode);
-    setQuery(next.q);
-    setCategoryId(next.categoria);
-    urlReady.current = true;
-  }, [searchParams]);
-
-  useEffect(() => {
-    if (!urlReady.current) return;
-
-    const current = parseCatalogUrl(searchParams);
-    if (
-      current.q !== activeQuery ||
-      current.mode !== mode ||
-      current.categoria !== categoryId
-    ) {
-      router.replace(
-        buildCatalogUrl({ q: activeQuery, mode, categoria: categoryId }),
-        { scroll: false },
-      );
-    }
-  }, [activeQuery, mode, categoryId, router, searchParams]);
 
   useEffect(() => {
     let cancelled = false;
@@ -322,6 +299,8 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
               placeholder="O que você está procurando?"
               className="mt-2 w-full border border-ice/15 bg-void px-4 py-3.5 text-body-md text-ice outline-none transition-colors placeholder:text-mute/55 focus:border-signal"
               autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
               autoFocus
               aria-describedby="catalog-desc-hint"
             />
@@ -342,6 +321,8 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
               placeholder="Digite o código do produto"
               className="mt-2 w-full border border-ice/15 bg-void px-4 py-3.5 text-body-md text-ice outline-none transition-colors placeholder:text-mute/55 focus:border-signal"
               autoComplete="off"
+              autoCorrect="off"
+              spellCheck={false}
               aria-describedby="catalog-code-hint"
             />
             <span id="catalog-code-hint" className="mt-2 block text-[0.875rem] text-mute">
@@ -397,26 +378,23 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
             Não foi possível carregar o catálogo.
           </p>
         )}
-        {status === "ready" && !isSearching && (
+        {status === "ready" && (
           <>
             <p role="status" aria-live="polite">
-              {results.length.toLocaleString("pt-BR")} resultado
-              {results.length === 1 ? "" : "s"}
-              {hasQuery || hasCategory ? " encontrados" : ""}
-              {hasCategory ? ` em ${categoryName}` : ""} ·{" "}
-              {total.toLocaleString("pt-BR")} itens no cadastro
+              {isSearching
+                ? "Buscando…"
+                : `${results.length.toLocaleString("pt-BR")} resultado${
+                    results.length === 1 ? "" : "s"
+                  }${hasQuery || hasCategory ? " encontrados" : ""}${
+                    hasCategory ? ` em ${categoryName}` : ""
+                  } · ${total.toLocaleString("pt-BR")} itens no cadastro`}
             </p>
-            <p>Preços e estoque sob consulta no WhatsApp.</p>
+            {!isSearching && <p>Preços e estoque sob consulta no WhatsApp.</p>}
           </>
-        )}
-        {status === "ready" && isSearching && (
-          <p role="status" aria-live="polite">
-            Buscando…
-          </p>
         )}
       </div>
 
-      {status === "ready" && !isSearching && results.length > PAGE_SIZE && (
+      {status === "ready" && results.length > PAGE_SIZE && (
         <CatalogPagination
           currentPage={currentPage}
           pageCount={pageCount}
@@ -425,20 +403,23 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
         />
       )}
 
-      <div className="mt-6 overflow-hidden border border-ice/10">
+      <div
+        className="mt-6 overflow-hidden border border-ice/10"
+        aria-busy={isSearching || status === "loading"}
+      >
         <div className="hidden grid-cols-[7.5rem_minmax(0,1fr)_auto] gap-4 border-b border-ice/10 bg-steel/40 px-4 py-3 text-kicker text-mute uppercase sm:grid">
           <span>Código</span>
           <span>Descrição</span>
           <span>Consulta</span>
         </div>
 
-        {status === "ready" && !isSearching && mode === "code" && !hasQuery && !hasCategory && (
+        {status === "ready" && mode === "code" && !hasQuery && !hasCategory && (
           <p className="px-4 py-10 text-body-md text-mute">
             Digite o código do produto para localizar o item no cadastro.
           </p>
         )}
 
-        {status === "ready" && !isSearching && hasQuery && pageItems.length === 0 && (
+        {status === "ready" && hasQuery && pageItems.length === 0 && (
           <div className="px-4 py-10">
             <p className="font-display text-display-md text-ice uppercase">
               Nenhum produto encontrado
@@ -466,7 +447,7 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
           </div>
         )}
 
-        {status === "ready" && !isSearching && pageItems.length > 0 && (
+        {status === "ready" && pageItems.length > 0 && (
           <ul>
             {pageItems.map((product) => (
               <li
@@ -495,7 +476,7 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
         )}
       </div>
 
-      {status === "ready" && !isSearching && results.length > PAGE_SIZE && (
+      {status === "ready" && results.length > PAGE_SIZE && (
         <CatalogPagination
           currentPage={currentPage}
           pageCount={pageCount}
