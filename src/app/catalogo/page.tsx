@@ -1,10 +1,10 @@
-import { Suspense } from "react";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { CatalogDownloadButton } from "@/components/catalog/CatalogDownloadButton";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
+import { parseCatalogSearchInput } from "@/lib/catalog-url";
 import { getSiteContent } from "@/lib/firebase/content";
 import { homeSection } from "@/lib/site";
 
@@ -28,8 +28,22 @@ export const metadata: Metadata = {
     "Consulte o cadastro de produtos da Riberfuso em Poços de Caldas: parafusos, ferramentas, máquinas e ferragens. Busca por código ou descrição.",
 };
 
-export default async function CatalogoPage() {
-  const content = await getSiteContent();
+type CatalogoSearchParams = {
+  q?: string | string[];
+  mode?: string | string[];
+  categoria?: string | string[];
+};
+
+export default async function CatalogoPage({
+  searchParams,
+}: {
+  searchParams: Promise<CatalogoSearchParams>;
+}) {
+  const [content, params] = await Promise.all([
+    getSiteContent(),
+    searchParams,
+  ]);
+  const initialSearch = parseCatalogSearchInput(params);
 
   return (
     <main>
@@ -59,15 +73,10 @@ export default async function CatalogoPage() {
       </section>
 
       <section className="bg-void px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
-        <Suspense
-          fallback={
-            <p className="text-body-md text-mute" role="status">
-              Carregando catálogo…
-            </p>
-          }
-        >
-          <ProductCatalog whatsappUrl={content.whatsapp} />
-        </Suspense>
+        <ProductCatalog
+          whatsappUrl={content.whatsapp}
+          initialSearch={initialSearch}
+        />
       </section>
       <SiteFooter />
     </main>
