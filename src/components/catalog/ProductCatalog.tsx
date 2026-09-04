@@ -338,10 +338,10 @@ export function ProductCatalog({
         {status === "ready" && (
           <>
             <p role="status" aria-live="polite">
-              {isSearching}
+              {isSearching
                 ? "Buscando…"
-                : `${results.length.toLocaleString("pt-BR")} resultado${
-                    results.length === 1 ? "" : "s"
+                : `${results.length.toLocaleString("pt-BR")} ${
+                    results.length === 1 ? "resultado" : "resultados"
                   }${hasQuery || hasCategory ? " encontrados" : ""}${
                     hasCategory ? ` em ${categoryName}` : ""
                   } · ${total.toLocaleString("pt-BR")} itens no cadastro`}
