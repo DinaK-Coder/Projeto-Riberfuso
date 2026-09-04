@@ -141,7 +141,7 @@ export function ShortcutCarousel() {
       <div className="relative mt-5 min-h-[8.25rem]">
         <div
           ref={trackRef}
-          className="flex gap-3 overflow-x-auto px-0.5 py-1 pb-2 [overflow-anchor:none] [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          className="flex gap-3 overflow-x-auto overflow-y-visible px-0.5 py-1 pb-3 [overflow-anchor:none] [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [scroll-padding-inline:0.25rem] [&::-webkit-scrollbar]:hidden"
           tabIndex={0}
           aria-label="Carrossel de sugestões do catálogo"
         >

@@ -7,9 +7,9 @@ import { useCatalogSearchState } from "./useCatalogSearchState";
 import {
   PAGE_SIZE,
   categoryLabel,
+  loadCatalogPayload,
   searchCatalog,
   whatsappNotFoundUrl,
-  type CatalogPayload,
   type CatalogProduct,
   type CatalogSearchMode,
 } from "@/lib/catalog";
@@ -134,11 +134,7 @@ export function ProductCatalog({
     let cancelled = false;
     setStatus("loading");
 
-    fetch("/catalog/products.json")
-      .then((response) => {
-        if (!response.ok) throw new Error("Falha ao carregar catálogo");
-        return response.json() as Promise<CatalogPayload>;
-      })
+    loadCatalogPayload()
       .then((payload) => {
         if (cancelled) return;
         setProducts(payload.products);
@@ -418,7 +414,7 @@ export function ProductCatalog({
                     product.c
                   )}
                 </p>
-                <p className="text-body-md text-ice">{product.n}</p>
+                <p className="min-w-0 break-words text-body-md text-ice">{product.n}</p>
                 <CatalogWhatsAppConsult product={product} />
               </li>
             ))}

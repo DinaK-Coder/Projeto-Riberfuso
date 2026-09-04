@@ -56,7 +56,7 @@ export async function SiteFooter() {
                 <p className="text-[0.75rem] font-medium tracking-[0.12em] text-signal uppercase">
                   {store.typeLabel} — {store.name}
                 </p>
-                <p className="mt-1 text-body-md text-ice/85">{store.street}</p>
+                <p className="mt-1 min-w-0 break-words text-body-md text-ice/85">{store.street}</p>
                 <p className="text-[0.875rem] text-mute">
                   {store.neighborhood} · {store.city} - {store.state}
                 </p>

@@ -48,7 +48,7 @@ export function QuoteDrawer() {
         aria-label="Fechar orçamento"
         onClick={() => setOpen(false)}
       />
-      <aside className="absolute inset-y-0 right-0 flex w-full max-w-[28rem] flex-col border-l border-ice/10 bg-void shadow-[-24px_0_60px_rgba(0,0,0,0.45)]">
+      <aside className="absolute inset-y-0 right-0 flex w-full max-w-[28rem] flex-col border-l border-ice/10 bg-void pt-[env(safe-area-inset-top)] shadow-[-24px_0_60px_rgba(0,0,0,0.45)]">
         <header className="flex items-start justify-between gap-4 border-b border-ice/10 px-5 py-4">
           <div>
             <p className="font-body text-kicker text-signal uppercase">Pedido rápido</p>

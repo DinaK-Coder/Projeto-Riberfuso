@@ -255,35 +255,25 @@ export function searchCatalog(
     : searchByDescription(scoped, trimmed);
 }
 
-export function suggestCatalog(
-  products: CatalogProduct[],
-  query: string,
-  limit = 6,
-): CatalogProduct[] {
-  const trimmed = query.trim();
-  if (trimmed.length < 2) return [];
+let catalogPayloadPromise: Promise<CatalogPayload> | null = null;
 
-  const digits = trimmed.replace(/\D/g, "");
-  const looksLikeCode = digits.length >= 3 && digits.length / trimmed.replace(/\s/g, "").length >= 0.7;
-  const mode: CatalogSearchMode = looksLikeCode ? "code" : "description";
-  return searchCatalog(products, trimmed, mode).slice(0, limit);
-}
+/** Client-side fetch of the catalog JSON, shared across remounts. */
+export function loadCatalogPayload(): Promise<CatalogPayload> {
+  if (!catalogPayloadPromise) {
+    catalogPayloadPromise = fetch("/catalog/products.json", {
+      cache: "force-cache",
+    })
+      .then((response) => {
+        if (!response.ok) throw new Error("Falha ao carregar catálogo");
+        return response.json() as Promise<CatalogPayload>;
+      })
+      .catch((error: unknown) => {
+        catalogPayloadPromise = null;
+        throw error;
+      });
+  }
 
-export function relatedProducts(
-  products: CatalogProduct[],
-  product: CatalogProduct,
-  limit = 4,
-) {
-  return products
-    .filter((item) => item.g === product.g && item.c !== product.c)
-    .slice(0, limit);
-}
-
-export function relatedCategoryIds(categoryId: string, limit = 4) {
-  return categories
-    .filter((item) => item.id !== categoryId)
-    .slice(0, limit)
-    .map((item) => item.id);
+  return catalogPayloadPromise;
 }
 
 export function whatsappConsultUrl(baseUrl: string, product: CatalogProduct) {

@@ -1,3 +1,4 @@
+import { cache } from "react";
 import {
   youtubeFeedUrl,
   youtubeThumbnail,
@@ -56,7 +57,9 @@ export function parseYoutubeFeed(xml: string): YoutubeVideo[] {
     });
 }
 
-export async function getYoutubeVideos(limit = 4): Promise<YoutubeVideo[]> {
+export const getYoutubeVideos = cache(async function getYoutubeVideos(
+  limit = 4,
+): Promise<YoutubeVideo[]> {
   try {
     const response = await fetch(youtubeFeedUrl, {
       next: { revalidate: 3600 },
@@ -70,4 +73,4 @@ export async function getYoutubeVideos(limit = 4): Promise<YoutubeVideo[]> {
   } catch {
     return [];
   }
-}
+});
