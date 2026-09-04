@@ -14,8 +14,10 @@ import { prefersReducedMotion } from "@/lib/prefers-motion";
 
 gsap.registerPlugin(ScrollTrigger);
 
-export function History() {
+export function History({ asPage = false }: { asPage?: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
+  const Heading = asPage ? "h1" : "h2";
+  const headingId = asPage ? "sobre-heading" : "history-heading";
 
   useEffect(() => {
     const section = sectionRef.current;
@@ -55,9 +57,13 @@ export function History() {
   return (
     <section
       ref={sectionRef}
-      id="sobre"
-      aria-labelledby="history-heading"
-      className="section-atmosphere section-divider-top bg-void px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      {...(asPage ? {} : { id: "sobre" })}
+      aria-labelledby={headingId}
+      className={
+        asPage
+          ? "bg-void px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
+          : "section-atmosphere section-divider-top bg-void px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      }
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="grid gap-12 lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)] lg:gap-16 xl:gap-20">
@@ -68,13 +74,13 @@ export function History() {
             >
               {aboutStory.kicker}
             </p>
-            <h2
-              id="history-heading"
+            <Heading
+              id={headingId}
               data-about-rise
               className="font-display text-display-md mt-3 text-ice uppercase sm:text-display-lg"
             >
               {aboutStory.title}
-            </h2>
+            </Heading>
 
             <div className="mt-8 space-y-5">
               {aboutStory.paragraphs.map((paragraph) => (

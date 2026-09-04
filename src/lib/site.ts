@@ -23,12 +23,10 @@ export function homeSection(id: string) {
 }
 
 export const navLinks = [
-  { href: homeSection("inicio"), label: "Início" },
-  { href: homeSection("produtos"), label: "Produtos" },
+  { href: "/", label: "Início" },
   { href: "/catalogo", label: "Catálogo" },
-  { href: homeSection("marcas"), label: "Marcas" },
-  { href: homeSection("sobre"), label: "Sobre" },
-  { href: homeSection("novidades"), label: "Novidades" },
-  { href: homeSection("lojas"), label: "Nossas lojas" },
+  { href: "/novidades", label: "Novidades" },
+  { href: homeSection("lojas"), label: "Lojas" },
+  { href: "/sobre", label: "Sobre" },
   { href: "/contato", label: "Contato" },
 ] as const;

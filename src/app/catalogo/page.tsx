@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
 import { CatalogDownloadButton } from "@/components/catalog/CatalogDownloadButton";
+import { PedirOrcamentoButton } from "@/components/quote/PedirOrcamentoButton";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { parseCatalogSearchInput } from "@/lib/catalog-url";
@@ -57,10 +58,11 @@ export default async function CatalogoPage({
             Catálogo de produtos
           </h1>
           <p className="mt-5 max-w-2xl text-body-md text-mute sm:text-body-lg">
-            Mais de 7 mil itens no cadastro comercial. Busque pelo código ou pela
-            descrição, peça orçamento ou baixe o catálogo em PDF.
+            Mais de 7 mil itens no cadastro comercial. Use a busca para conferir
+            códigos e descrições, ou descreva o que precisa e envie pelo WhatsApp.
           </p>
           <div className="mt-6 flex flex-wrap items-center gap-4">
+            <PedirOrcamentoButton />
             <CatalogDownloadButton />
             <Link
               href={homeSection("produtos")}

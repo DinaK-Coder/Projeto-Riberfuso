@@ -14,8 +14,8 @@ import {
   type CatalogSearchMode,
 } from "@/lib/catalog";
 import { prefersReducedMotion } from "@/lib/prefers-motion";
-import { AddToQuoteButton } from "@/components/quote/AddToQuoteButton";
 import { CatalogDownloadButton } from "./CatalogDownloadButton";
+import { CatalogWhatsAppConsult } from "./CatalogWhatsAppConsult";
 
 function CodeHighlight({ code, query }: { code: string; query: string }) {
   const digits = query.replace(/\D/g, "");
@@ -367,7 +367,7 @@ export function ProductCatalog({
         <div className="hidden grid-cols-[7.5rem_minmax(0,1fr)_auto] gap-4 border-b border-ice/10 bg-steel/40 px-4 py-3 text-kicker text-mute uppercase sm:grid">
           <span>Código</span>
           <span>Descrição</span>
-          <span>Orçamento</span>
+          <span>Consulta</span>
         </div>
 
         {status === "ready" && mode === "code" && !hasQuery && !hasCategory && (
@@ -419,9 +419,7 @@ export function ProductCatalog({
                   )}
                 </p>
                 <p className="text-body-md text-ice">{product.n}</p>
-                <div className="sm:justify-self-end">
-                  <AddToQuoteButton product={product} compact />
-                </div>
+                <CatalogWhatsAppConsult product={product} />
               </li>
             ))}
           </ul>

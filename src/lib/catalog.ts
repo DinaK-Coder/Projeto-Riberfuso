@@ -287,7 +287,15 @@ export function relatedCategoryIds(categoryId: string, limit = 4) {
 }
 
 export function whatsappConsultUrl(baseUrl: string, product: CatalogProduct) {
-  const text = `Olá, gostaria de consultar disponibilidade e preço do item ${product.c} — ${product.n}.`;
+  const text = [
+    "Olá, gostaria de consultar este produto.",
+    "",
+    `Código: ${product.c}`,
+    `Descrição: ${product.n}`,
+    "",
+    "Pode informar disponibilidade e preço?",
+    "Quantidade (unidades):",
+  ].join("\n");
   return `${baseUrl}?text=${encodeURIComponent(text)}`;
 }
 

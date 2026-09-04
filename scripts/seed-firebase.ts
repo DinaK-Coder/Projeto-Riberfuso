@@ -16,6 +16,7 @@ import { brands } from "../src/lib/brands";
 import { categories } from "../src/lib/categories";
 import { contact } from "../src/lib/contact";
 import { site } from "../src/lib/site";
+import { fallbackOffers } from "../src/lib/offers";
 import { stores } from "../src/lib/stores";
 
 function loadEnvLocal() {
@@ -91,12 +92,19 @@ async function seed() {
     ),
   );
 
+  await Promise.all(
+    fallbackOffers.map((offer, index) =>
+      setDoc(doc(db, "offers", offer.id), omitUndefined({ ...offer, order: index })),
+    ),
+  );
+
   console.log("Firestore atualizado:");
   console.log("- settings/site");
   console.log("- settings/contact");
   console.log(`- ${stores.length} lojas`);
   console.log(`- ${categories.length} categorias`);
   console.log(`- ${brands.length} marcas`);
+  console.log(`- ${fallbackOffers.length} ofertas`);
   process.exit(0);
 }
 

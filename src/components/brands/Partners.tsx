@@ -43,31 +43,29 @@ export function Partners() {
       ref={sectionRef}
       id="marcas"
       aria-labelledby="partners-heading"
-      className="section-atmosphere section-atmosphere-steel section-divider-top relative overflow-x-hidden bg-steel px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      className="section-atmosphere section-atmosphere-steel section-divider-top relative overflow-x-hidden bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
     >
-      <div className="mb-14 max-w-3xl lg:mb-20">
+      <div className="mb-10 max-w-3xl lg:mb-12">
         <p
           data-partners-copy
           className="font-body text-kicker text-signal uppercase"
         >
-          Marcas · no balcão
+          Marcas · parceria no balcão
         </p>
         <h2
           id="partners-heading"
           data-partners-copy
           className="font-display text-display-lg mt-3 text-ice uppercase"
         >
-          GRANDES MARCAS PARA
-          <br />
-          GRANDES TRABALHOS.
+          GRANDES MARCAS.
         </h2>
         <p
           data-partners-copy
           className="mt-5 max-w-xl text-body-md text-mute sm:text-body-lg"
         >
-          Trabalhamos com fabricantes reconhecidos para oferecer ferramentas,
-          máquinas, fixadores e soluções profissionais em que você pode
-          confiar.
+          A Bosch Professional é a marca parceira da Riberfuso em máquinas e
+          ferramentas elétricas. As demais linhas completam o atendimento no
+          balcão.
         </p>
       </div>
 

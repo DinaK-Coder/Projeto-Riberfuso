@@ -10,125 +10,90 @@ import {
   type ReactNode,
 } from "react";
 import {
+  QUOTE_MESSAGE_MAX,
   QUOTE_STORAGE_KEY,
-  productToQuoteItem,
-  quoteItemCount,
-  type QuoteItem,
+  isQuoteStoreId,
   type QuoteStorePreference,
+  type StoredQuoteDraft,
 } from "@/lib/quote";
-import type { CatalogProduct } from "@/lib/catalog";
 
 type QuoteContextValue = {
-  items: QuoteItem[];
+  message: string;
+  setMessage: (value: string) => void;
   storeId: QuoteStorePreference;
   setStoreId: (id: QuoteStorePreference) => void;
   open: boolean;
   setOpen: (open: boolean) => void;
-  addItem: (product: CatalogProduct, qty?: number) => void;
-  updateItem: (code: string, patch: Partial<Pick<QuoteItem, "qty" | "notes">>) => void;
-  removeItem: (code: string) => void;
+  openWithMessage: (value: string) => void;
   clear: () => void;
-  count: number;
-  has: (code: string) => boolean;
 };
 
 const QuoteContext = createContext<QuoteContextValue | null>(null);
 
-function readStoredQuote(): QuoteItem[] {
-  if (typeof window === "undefined") return [];
+function readStoredDraft(): StoredQuoteDraft {
+  if (typeof window === "undefined") {
+    return { message: "", storeId: "matriz" };
+  }
   try {
     const raw = window.localStorage.getItem(QUOTE_STORAGE_KEY);
-    if (!raw) return [];
-    const parsed = JSON.parse(raw) as unknown;
-    if (!Array.isArray(parsed)) return [];
-    return parsed.flatMap((item) => {
-      if (!item || typeof item !== "object") return [];
-      const record = item as Partial<QuoteItem>;
-      if (typeof record.code !== "string" || typeof record.name !== "string") {
-        return [];
-      }
-      return [
-        {
-          code: record.code,
-          name: record.name,
-          qty: Math.max(1, Number(record.qty) || 1),
-          notes: typeof record.notes === "string" ? record.notes : "",
-        },
-      ];
-    });
+    if (!raw) return { message: "", storeId: "matriz" };
+    const parsed = JSON.parse(raw) as Partial<StoredQuoteDraft>;
+    const message =
+      typeof parsed.message === "string"
+        ? parsed.message.slice(0, QUOTE_MESSAGE_MAX)
+        : "";
+    const storeId =
+      typeof parsed.storeId === "string" && isQuoteStoreId(parsed.storeId)
+        ? parsed.storeId
+        : "matriz";
+    return { message, storeId };
   } catch {
-    return [];
+    return { message: "", storeId: "matriz" };
   }
 }
 
 export function QuoteProvider({ children }: { children: ReactNode }) {
-  const [items, setItems] = useState<QuoteItem[]>([]);
+  const [message, setMessageState] = useState("");
   const [storeId, setStoreId] = useState<QuoteStorePreference>("matriz");
   const [open, setOpen] = useState(false);
   const [hydrated, setHydrated] = useState(false);
 
   useEffect(() => {
-    setItems(readStoredQuote());
+    const draft = readStoredDraft();
+    setMessageState(draft.message);
+    setStoreId(draft.storeId);
     setHydrated(true);
   }, []);
 
   useEffect(() => {
     if (!hydrated) return;
-    window.localStorage.setItem(QUOTE_STORAGE_KEY, JSON.stringify(items));
-  }, [items, hydrated]);
+    const draft: StoredQuoteDraft = { message, storeId };
+    window.localStorage.setItem(QUOTE_STORAGE_KEY, JSON.stringify(draft));
+  }, [hydrated, message, storeId]);
 
-  const addItem = useCallback((product: CatalogProduct, qty = 1) => {
-    setItems((current) => {
-      const existing = current.find((item) => item.code === product.c);
-      if (existing) {
-        return current.map((item) =>
-          item.code === product.c
-            ? { ...item, qty: item.qty + Math.max(1, qty) }
-            : item,
-        );
-      }
-      return [...current, productToQuoteItem(product, qty)];
-    });
+  const setMessage = useCallback((value: string) => {
+    setMessageState(value.slice(0, QUOTE_MESSAGE_MAX));
+  }, []);
+
+  const openWithMessage = useCallback((value: string) => {
+    setMessageState(value.slice(0, QUOTE_MESSAGE_MAX));
     setOpen(true);
   }, []);
 
-  const updateItem = useCallback(
-    (code: string, patch: Partial<Pick<QuoteItem, "qty" | "notes">>) => {
-      setItems((current) =>
-        current.map((item) => {
-          if (item.code !== code) return item;
-          return {
-            ...item,
-            qty: patch.qty != null ? Math.max(1, Math.round(patch.qty)) : item.qty,
-            notes: patch.notes != null ? patch.notes : item.notes,
-          };
-        }),
-      );
-    },
-    [],
-  );
-
-  const removeItem = useCallback((code: string) => {
-    setItems((current) => current.filter((item) => item.code !== code));
-  }, []);
-
-  const clear = useCallback(() => setItems([]), []);
+  const clear = useCallback(() => setMessageState(""), []);
 
   const value = useMemo<QuoteContextValue>(
     () => ({
-      items,
+      message,
+      setMessage,
       storeId,
       setStoreId,
       open,
       setOpen,
-      addItem,
-      updateItem,
-      removeItem,
+      openWithMessage,
       clear,
-      count: quoteItemCount(items),
-      has: (code: string) => items.some((item) => item.code === code),
     }),
-    [addItem, clear, items, open, removeItem, storeId, updateItem],
+    [clear, message, open, openWithMessage, setMessage, storeId],
   );
 
   return <QuoteContext.Provider value={value}>{children}</QuoteContext.Provider>;

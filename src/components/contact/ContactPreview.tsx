@@ -1,19 +1,17 @@
 import Link from "next/link";
 import { contactWhatsapps } from "@/lib/contact";
-import { getContactInfo, getSiteContent, getStores } from "@/lib/firebase/content";
-import { homeSection } from "@/lib/site";
+import { getContactInfo, getSiteContent } from "@/lib/firebase/content";
 
 export async function ContactPreview() {
-  const [site, stores, contact] = await Promise.all([
+  const [site, contact] = await Promise.all([
     getSiteContent(),
-    getStores(),
     getContactInfo(),
   ]);
   return (
     <section
-      id="contato"
+      id="contato-preview"
       aria-labelledby="contact-preview-heading"
-      className="section-atmosphere section-atmosphere-steel section-divider-top bg-steel px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      className="section-atmosphere section-atmosphere-steel section-divider-top bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="max-w-3xl">
@@ -29,13 +27,12 @@ export async function ContactPreview() {
             RIBERFUSO.
           </h2>
           <p className="mt-5 max-w-xl text-body-md text-mute sm:text-body-lg">
-            Parafusos, ferramentas e máquinas em Poços de Caldas desde {site.since}.
-            Fale com a equipe pelo WhatsApp, telefone ou visite uma das nossas
-            unidades — Vila Nova e Centro.
+            Consulte estoque e peça orçamento pelo WhatsApp. Telefone, rotas e
+            redes sociais estão na página de contato.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+        <div className="mt-10 grid gap-4 sm:grid-cols-2">
           {contactWhatsapps(contact).map((phone) => (
             <article key={phone.href} className="contact-card">
               <p className="font-body text-kicker text-signal uppercase">
@@ -51,31 +48,11 @@ export async function ContactPreview() {
               </a>
             </article>
           ))}
-          {stores.map((store) => (
-            <article key={store.id} className="contact-card">
-              <p className="font-body text-kicker text-signal uppercase">
-                {store.typeLabel}
-              </p>
-              <p className="mt-2 text-body-md font-semibold text-ice">{store.name}</p>
-              <p className="text-body-md text-mute">{store.street}</p>
-              {store.phones[0] ? (
-                <a href={store.phones[0].href} className="contact-card-link">
-                  {store.phones[0].display}
-                </a>
-              ) : null}
-            </article>
-          ))}
         </div>
 
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row sm:items-center">
+        <div className="mt-8">
           <Link href="/contato" className="contact-card-cta inline-flex justify-center">
             Ver contato completo
-          </Link>
-          <Link
-            href={homeSection("lojas")}
-            className="inline-flex min-h-11 items-center justify-center border border-ice/25 px-5 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:border-ice/50 hover:bg-ice/5 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
-          >
-            Ver nossas lojas
           </Link>
         </div>
       </div>

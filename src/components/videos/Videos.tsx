@@ -64,12 +64,29 @@ async function VideosContent() {
   );
 }
 
-export function Videos() {
+export function Videos({
+  asPage = false,
+  sectionId,
+}: {
+  asPage?: boolean;
+  sectionId?: string;
+}) {
+  const Heading = asPage ? "h1" : "h2";
+  const headingId = asPage ? "novidades-heading" : "videos-heading";
+
   return (
     <section
-      id="novidades"
-      aria-labelledby="videos-heading"
-      className="section-atmosphere section-atmosphere-steel section-divider-top bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
+      {...(sectionId
+        ? { id: sectionId }
+        : asPage
+          ? {}
+          : { id: "novidades" })}
+      aria-labelledby={headingId}
+      className={
+        asPage
+          ? "bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
+          : "section-atmosphere section-atmosphere-steel section-divider-top bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
+      }
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="videos-intro">
@@ -78,12 +95,12 @@ export function Videos() {
               YouTube · {youtubeChannel.name}
             </p>
             <div className="videos-intro-heading">
-              <h2
-                id="videos-heading"
+              <Heading
+                id={headingId}
                 className="font-display text-display-lg text-ice uppercase"
               >
                 Novidades no canal
-              </h2>
+              </Heading>
               <a
                 href={youtubeChannel.url}
                 target="_blank"

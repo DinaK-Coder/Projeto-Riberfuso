@@ -27,7 +27,7 @@ export function BoschFeature({ brand, reducedMotion }: BoschFeatureProps) {
 
         <div className="min-w-0 flex-1">
           <p className="font-body text-kicker text-signal uppercase">
-            Destaque · linha profissional
+            Parceiro · linha profissional
           </p>
           <p className="font-display text-display-md mt-3 text-ice uppercase">
             {title}

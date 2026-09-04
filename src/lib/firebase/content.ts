@@ -7,6 +7,7 @@ import {
   type ContactInfo,
   type ContactPhone,
 } from "@/lib/contact";
+import { fallbackOffers, liveOffers, type Offer } from "@/lib/offers";
 import { site as fallbackSite, type SiteContent } from "@/lib/site";
 import { stores as fallbackStores, type Store, type StoreType } from "@/lib/stores";
 import { getFirestoreDb } from "./app";
@@ -275,5 +276,53 @@ export const getBrands = cache(async (): Promise<Brand[]> => {
   } catch (error) {
     console.error("Firestore: falha ao ler brands", error);
     return fallbackBrands;
+  }
+});
+
+function parseOffer(id: string, data: Record<string, unknown>): Offer | null {
+  const title = asString(data.title);
+  const summary = asString(data.summary);
+  if (!title || !summary) return null;
+
+  const cta = data.cta === "quote" ? "quote" : "link";
+  const href = typeof data.href === "string" ? data.href : undefined;
+  if (cta === "link" && !href) return null;
+
+  return {
+    id,
+    badge: asString(data.badge, "Oferta"),
+    title,
+    summary,
+    ctaLabel: asString(data.ctaLabel, cta === "quote" ? "Pedir orçamento" : "Saiba mais"),
+    href,
+    cta,
+    validUntil: typeof data.validUntil === "string" ? data.validUntil : undefined,
+    active: data.active !== false,
+  };
+}
+
+export const getOffers = cache(async (): Promise<Offer[]> => {
+  const db = getFirestoreDb();
+  if (!db) return liveOffers(fallbackOffers);
+
+  try {
+    const snapshot = await getDocs(collection(db, "offers"));
+    if (snapshot.empty) return liveOffers(fallbackOffers);
+
+    const parsed = snapshot.docs
+      .map((item) => {
+        const data = item.data();
+        const offer = parseOffer(item.id, data);
+        return offer ? { offer, order: asNumber(data.order, 99) } : null;
+      })
+      .filter((item): item is { offer: Offer; order: number } => item !== null)
+      .sort((a, b) => a.order - b.order)
+      .map((item) => item.offer);
+
+    const live = liveOffers(parsed);
+    return parsed.length > 0 ? live : liveOffers(fallbackOffers);
+  } catch (error) {
+    console.error("Firestore: falha ao ler offers", error);
+    return liveOffers(fallbackOffers);
   }
 });
