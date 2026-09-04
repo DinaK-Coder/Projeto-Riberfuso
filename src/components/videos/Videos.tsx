@@ -15,8 +15,8 @@ function VideosSkeleton() {
       <div className="video-featured">
         <div className="video-featured-frame video-skeleton" />
         <div className="video-featured-copy">
-          <div className="video-skeleton-line video-skeleton-line-sm" />
           <div className="video-skeleton-line" />
+          <div className="video-skeleton-line video-skeleton-line-sm" />
         </div>
       </div>
       <div className="videos-side">
@@ -69,7 +69,7 @@ export function Videos() {
     <section
       id="novidades"
       aria-labelledby="videos-heading"
-      className="section-atmosphere section-atmosphere-steel section-divider-top bg-steel px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
+      className="section-atmosphere section-atmosphere-steel section-divider-top bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
     >
       <div className="mx-auto max-w-[90rem]">
         <div className="videos-intro">
@@ -77,26 +77,28 @@ export function Videos() {
             <p className="font-body text-kicker text-signal uppercase">
               YouTube · {youtubeChannel.name}
             </p>
-            <h2
-              id="videos-heading"
-              className="font-display text-display-lg mt-3 text-ice uppercase"
-            >
-              Novidades no canal
-            </h2>
+            <div className="videos-intro-heading">
+              <h2
+                id="videos-heading"
+                className="font-display text-display-lg text-ice uppercase"
+              >
+                Novidades no canal
+              </h2>
+              <a
+                href={youtubeChannel.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="videos-channel-cta"
+              >
+                Ver canal
+                <span aria-hidden> →</span>
+              </a>
+            </div>
             <p className="videos-intro-lead">
-              Dicas, pedidos da loja e lançamentos de ferramentas. Os vídeos mais
-              recentes de {youtubeChannel.handle} entram aqui automaticamente.
+              Dicas, pedidos da loja e lançamentos de ferramentas — atualizado
+              automaticamente.
             </p>
           </div>
-          <a
-            href={youtubeChannel.url}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="videos-channel-cta"
-          >
-            Ver canal
-            <span aria-hidden> →</span>
-          </a>
         </div>
 
         <Suspense fallback={<VideosSkeleton />}>

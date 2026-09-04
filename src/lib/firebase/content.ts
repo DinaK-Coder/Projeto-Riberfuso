@@ -2,7 +2,11 @@ import { cache } from "react";
 import { collection, doc, getDoc, getDocs } from "firebase/firestore/lite";
 import { brands as fallbackBrands, type Brand } from "@/lib/brands";
 import { categories as fallbackCategories, type Category } from "@/lib/categories";
-import { contact as fallbackContact, type ContactInfo } from "@/lib/contact";
+import {
+  contact as fallbackContact,
+  type ContactInfo,
+  type ContactPhone,
+} from "@/lib/contact";
 import { site as fallbackSite, type SiteContent } from "@/lib/site";
 import { stores as fallbackStores, type Store, type StoreType } from "@/lib/stores";
 import { getFirestoreDb } from "./app";
@@ -44,14 +48,18 @@ function parseContact(data: Record<string, unknown>): ContactInfo | null {
 
   const instagram = isRecord(data.social.instagram) ? data.social.instagram : null;
   if (!instagram) return null;
+  const facebook = isRecord(data.social.facebook) ? data.social.facebook : {};
   const youtube = isRecord(data.social.youtube) ? data.social.youtube : {};
 
   const phones = Array.isArray(data.phones)
-    ? data.phones.flatMap((phone) => {
+    ? data.phones.flatMap((phone): ContactPhone[] => {
         if (!isRecord(phone)) return [];
+        const unit = phone.unit === "Filial" ? "Filial" : "Matriz";
+        const kind = phone.kind === "vendas" ? "vendas" : "phone";
         return [
           {
-            label: asString(phone.label, "Telefone"),
+            unit,
+            kind,
             display: asString(phone.display),
             href: asString(phone.href),
           },
@@ -77,6 +85,11 @@ function parseContact(data: Record<string, unknown>): ContactInfo | null {
         href: asString(instagram.href),
         handle: asString(instagram.handle),
       },
+      facebook: {
+        label: asString(facebook.label, fallbackContact.social.facebook.label),
+        href: asString(facebook.href, fallbackContact.social.facebook.href),
+        handle: asString(facebook.handle, fallbackContact.social.facebook.handle),
+      },
       youtube: {
         label: asString(youtube.label, fallbackContact.social.youtube.label),
         href: asString(youtube.href, fallbackContact.social.youtube.href),
@@ -92,16 +105,40 @@ function parseStore(id: string, data: Record<string, unknown>): Store | null {
   if (typeLabel !== "Matriz" && typeLabel !== "Filial") return null;
   if (id !== "matriz" && id !== "filial") return null;
 
+  const fallback = fallbackStores.find((store) => store.id === id);
+  if (!fallback) return null;
+
+  const parsedPhones = Array.isArray(data.phones)
+    ? data.phones.flatMap((phone) => {
+        if (!isRecord(phone)) return [];
+        return [
+          {
+            display: asString(phone.display),
+            href: asString(phone.href),
+            note: typeof phone.note === "string" ? phone.note : undefined,
+          },
+        ];
+      })
+    : [];
+  const phones = parsedPhones.length ? parsedPhones : fallback.phones;
+
   return {
+    ...fallback,
     id: id as StoreType,
     typeLabel,
-    name: asString(data.name),
-    street: asString(data.street),
-    neighborhood: asString(data.neighborhood),
-    city: asString(data.city),
-    state: asString(data.state),
-    mapsQuery: asString(data.mapsQuery),
-    directionsUrl: asString(data.directionsUrl),
+    name: asString(data.name, fallback.name),
+    street: asString(data.street, fallback.street),
+    neighborhood: asString(data.neighborhood, fallback.neighborhood),
+    city: asString(data.city, fallback.city),
+    state: asString(data.state, fallback.state),
+    postalCode: asString(data.postalCode, fallback.postalCode ?? "") || fallback.postalCode,
+    mapsQuery: asString(data.mapsQuery, fallback.mapsQuery),
+    directionsUrl: asString(data.directionsUrl, fallback.directionsUrl),
+    hours: asString(data.hours, fallback.hours),
+    hoursNote: asString(data.hoursNote, fallback.hoursNote),
+    photoSrc: asString(data.photoSrc, fallback.photoSrc),
+    photoAlt: asString(data.photoAlt, fallback.photoAlt),
+    phones,
   };
 }
 
@@ -126,7 +163,21 @@ export const getContactInfo = cache(async (): Promise<ContactInfo> => {
   try {
     const snapshot = await getDoc(doc(db, "settings", "contact"));
     const parsed = snapshot.exists() ? parseContact(snapshot.data() ?? {}) : null;
-    return parsed ?? fallbackContact;
+    if (!parsed) return fallbackContact;
+
+    return {
+      ...parsed,
+      phones:
+        parsed.phones.length >= fallbackContact.phones.length
+          ? parsed.phones
+          : fallbackContact.phones,
+      social: {
+        ...parsed.social,
+        facebook: parsed.social.facebook.href
+          ? parsed.social.facebook
+          : fallbackContact.social.facebook,
+      },
+    };
   } catch (error) {
     console.error("Firestore: falha ao ler settings/contact", error);
     return fallbackContact;

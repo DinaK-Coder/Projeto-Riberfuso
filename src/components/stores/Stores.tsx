@@ -1,5 +1,5 @@
 import { getStores } from "@/lib/firebase/content";
-import { StoreCard } from "./StoreCard";
+import { StoreDirectory } from "./StoreDirectory";
 
 export async function Stores() {
   const stores = await getStores();
@@ -21,15 +21,13 @@ export async function Stores() {
             Nossas lojas
           </h2>
           <p className="mt-5 max-w-xl text-body-md text-mute sm:text-body-lg">
-            Escolha a unidade mais conveniente para você. Matriz na Vila Nova e
-            Filial no Centro — mesma marca, mesmo atendimento.
+            Matriz na Vila Nova e Filial no Centro. Veja o endereço, fale pelo
+            WhatsApp da unidade ou trace a rota no Google Maps.
           </p>
         </div>
 
-        <div className="store-grid mt-12 lg:mt-14">
-          {stores.map((store) => (
-            <StoreCard key={store.id} store={store} />
-          ))}
+        <div className="mt-12 lg:mt-14">
+          <StoreDirectory stores={stores} />
         </div>
       </div>
     </section>

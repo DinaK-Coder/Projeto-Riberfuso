@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { CatalogDownloadButton } from "./CatalogDownloadButton";
 import { buildCatalogUrl } from "@/lib/catalog-url";
 
 export function CatalogSearchCTA() {
@@ -32,12 +33,15 @@ export function CatalogSearchCTA() {
             itens cadastrados — disponibilidade e preço sob consulta.
           </p>
         </div>
-        <Link
-          href={buildCatalogUrl()}
-          className="inline-flex min-h-12 shrink-0 items-center justify-center bg-signal px-6 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-white uppercase transition-colors hover:bg-[#c4242c] focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
-        >
-          Consultar catálogo
-        </Link>
+        <div className="flex shrink-0 flex-col gap-3 sm:flex-row sm:items-center">
+          <Link
+            href={buildCatalogUrl()}
+            className="inline-flex min-h-12 items-center justify-center bg-signal px-6 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-white uppercase transition-colors hover:bg-[#c4242c] focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
+          >
+            Consultar catálogo
+          </Link>
+          <CatalogDownloadButton />
+        </div>
       </div>
     </aside>
   );

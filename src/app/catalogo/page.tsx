@@ -2,10 +2,11 @@ import { Suspense } from "react";
 import type { Metadata } from "next";
 import dynamic from "next/dynamic";
 import Link from "next/link";
+import { CatalogDownloadButton } from "@/components/catalog/CatalogDownloadButton";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { getSiteContent } from "@/lib/firebase/content";
-import { homeSection, site } from "@/lib/site";
+import { homeSection } from "@/lib/site";
 
 const ProductCatalog = dynamic(
   () =>
@@ -22,7 +23,7 @@ const ProductCatalog = dynamic(
 );
 
 export const metadata: Metadata = {
-  title: `Catálogo | ${site.name}`,
+  title: "Catálogo",
   description:
     "Consulte o cadastro de produtos da Riberfuso em Poços de Caldas: parafusos, ferramentas, máquinas e ferragens. Busca por código ou descrição.",
 };
@@ -43,14 +44,17 @@ export default async function CatalogoPage() {
           </h1>
           <p className="mt-5 max-w-2xl text-body-md text-mute sm:text-body-lg">
             Mais de 7 mil itens no cadastro comercial. Busque pelo código ou pela
-            descrição e consulte disponibilidade e preço pelo WhatsApp.
+            descrição, peça orçamento ou baixe o catálogo em PDF.
           </p>
-          <Link
-            href={homeSection("produtos")}
-            className="mt-6 inline-flex text-[0.8125rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:text-signal"
-          >
-            Voltar às linhas de produto
-          </Link>
+          <div className="mt-6 flex flex-wrap items-center gap-4">
+            <CatalogDownloadButton />
+            <Link
+              href={homeSection("produtos")}
+              className="inline-flex min-h-12 items-center text-[0.8125rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:text-signal"
+            >
+              Voltar às linhas de produto
+            </Link>
+          </div>
         </div>
       </section>
 

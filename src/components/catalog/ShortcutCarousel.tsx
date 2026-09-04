@@ -45,18 +45,18 @@ export function ShortcutCarousel() {
   const updateArrows = useCallback(() => {
     const track = trackRef.current;
     if (!track) return;
-    const max = track.scrollWidth - track.clientWidth;
-    setCanPrev(track.scrollLeft > 4);
-    setCanNext(track.scrollLeft < max - 4);
+    const max = Math.max(0, track.scrollWidth - track.clientWidth);
+    const prev = track.scrollLeft > 4;
+    const next = max > 4 && track.scrollLeft < max - 4;
+    setCanPrev((current) => (current === prev ? current : prev));
+    setCanNext((current) => (current === next ? current : next));
   }, []);
 
   useEffect(() => {
     const track = trackRef.current;
     if (!track) return;
 
-    track.scrollTo({ left: 0, behavior: "auto" });
     updateArrows();
-
     track.addEventListener("scroll", updateArrows, { passive: true });
     window.addEventListener("resize", updateArrows);
 
@@ -64,7 +64,15 @@ export function ShortcutCarousel() {
       track.removeEventListener("scroll", updateArrows);
       window.removeEventListener("resize", updateArrows);
     };
-  }, [items, updateArrows]);
+  }, [updateArrows]);
+
+  useEffect(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    track.scrollLeft = 0;
+    const frame = requestAnimationFrame(updateArrows);
+    return () => cancelAnimationFrame(frame);
+  }, [filter, updateArrows]);
 
   const scrollByPage = (direction: -1 | 1) => {
     const track = trackRef.current;
@@ -92,7 +100,10 @@ export function ShortcutCarousel() {
                 type="button"
                 role="tab"
                 aria-selected={selected}
-                onClick={() => setFilter(item.id)}
+                onClick={() => {
+                  if (item.id === filter) return;
+                  setFilter(item.id);
+                }}
                 className={`min-h-10 border px-3.5 font-body text-[0.75rem] font-semibold tracking-[0.08em] uppercase transition-colors focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none ${
                   selected
                     ? "border-signal bg-signal text-white"
@@ -127,18 +138,24 @@ export function ShortcutCarousel() {
         </div>
       </div>
 
-      <div className="relative mt-5">
+      <div className="relative mt-5 min-h-[8.25rem]">
         <div
           ref={trackRef}
-          className="flex gap-3 overflow-x-auto scroll-smooth px-0.5 py-1 pb-2 [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
+          className="flex gap-3 overflow-x-auto px-0.5 py-1 pb-2 [overflow-anchor:none] [-ms-overflow-style:none] [scrollbar-width:none] snap-x snap-mandatory [&::-webkit-scrollbar]:hidden"
           tabIndex={0}
           aria-label="Carrossel de sugestões do catálogo"
         >
-          {items.map((shortcut) => (
-            <div key={shortcut.abbreviation} className="snap-start shrink-0">
-              <ShortcutCard shortcut={shortcut} />
-            </div>
-          ))}
+          {CATALOG_SHORTCUTS.map((shortcut) => {
+            const visible = filter === "todos" || shortcut.group === filter;
+            return (
+              <div
+                key={shortcut.abbreviation}
+                className={`snap-start shrink-0 ${visible ? "" : "hidden"}`}
+              >
+                <ShortcutCard shortcut={shortcut} />
+              </div>
+            );
+          })}
         </div>
 
         {canPrev && (

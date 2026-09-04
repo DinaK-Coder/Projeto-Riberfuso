@@ -19,8 +19,8 @@ export type CatalogSearchMode = "code" | "description";
 
 export const PAGE_SIZE = 40;
 
-/** Set when a PDF is added to public/catalog/ — file not in repo yet */
-export const CATALOG_PDF_HREF: string | null = null;
+export const CATALOG_DOWNLOAD_HREF = "/catalog/catalogo-riberfuso.pdf";
+export const CATALOG_DOWNLOAD_FILENAME = "catalogo-riberfuso.pdf";
 
 const categoryLabels = Object.fromEntries(
   categories.map((item) => [item.id, item.name]),
@@ -253,6 +253,37 @@ export function searchCatalog(
   return mode === "code"
     ? searchByCode(scoped, trimmed)
     : searchByDescription(scoped, trimmed);
+}
+
+export function suggestCatalog(
+  products: CatalogProduct[],
+  query: string,
+  limit = 6,
+): CatalogProduct[] {
+  const trimmed = query.trim();
+  if (trimmed.length < 2) return [];
+
+  const digits = trimmed.replace(/\D/g, "");
+  const looksLikeCode = digits.length >= 3 && digits.length / trimmed.replace(/\s/g, "").length >= 0.7;
+  const mode: CatalogSearchMode = looksLikeCode ? "code" : "description";
+  return searchCatalog(products, trimmed, mode).slice(0, limit);
+}
+
+export function relatedProducts(
+  products: CatalogProduct[],
+  product: CatalogProduct,
+  limit = 4,
+) {
+  return products
+    .filter((item) => item.g === product.g && item.c !== product.c)
+    .slice(0, limit);
+}
+
+export function relatedCategoryIds(categoryId: string, limit = 4) {
+  return categories
+    .filter((item) => item.id !== categoryId)
+    .slice(0, limit)
+    .map((item) => item.id);
 }
 
 export function whatsappConsultUrl(baseUrl: string, product: CatalogProduct) {

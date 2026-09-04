@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { ContactPreview } from "@/components/contact/ContactPreview";
 import { Hero } from "@/components/hero/Hero";
+import { CredibilityStrip } from "@/components/home/CredibilityStrip";
 import { SiteFooter } from "@/components/layout/SiteFooter";
 import { SiteHeader } from "@/components/layout/SiteHeader";
 import { Stores } from "@/components/stores/Stores";
@@ -24,6 +25,7 @@ export default async function HomePage() {
     <main>
       <SiteHeader />
       <Hero site={site} />
+      <CredibilityStrip />
       <Catalog />
       <Partners />
       <History />

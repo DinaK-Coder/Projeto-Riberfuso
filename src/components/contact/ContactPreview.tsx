@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { contactWhatsapps } from "@/lib/contact";
 import { getContactInfo, getSiteContent, getStores } from "@/lib/firebase/content";
 import { homeSection } from "@/lib/site";
 
@@ -35,23 +36,21 @@ export async function ContactPreview() {
         </div>
 
         <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <article className="contact-card">
-            <p className="font-body text-kicker text-signal uppercase">WhatsApp</p>
-            <a
-              href={contact.whatsapp.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="contact-card-link"
-            >
-              {contact.whatsapp.display}
-            </a>
-          </article>
-          <article className="contact-card">
-            <p className="font-body text-kicker text-signal uppercase">Telefone</p>
-            <a href={contact.phones[0].href} className="contact-card-link">
-              {contact.phones[0].display}
-            </a>
-          </article>
+          {contactWhatsapps(contact).map((phone) => (
+            <article key={phone.href} className="contact-card">
+              <p className="font-body text-kicker text-signal uppercase">
+                WhatsApp · {phone.unit}
+              </p>
+              <a
+                href={phone.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-card-link"
+              >
+                {phone.display}
+              </a>
+            </article>
+          ))}
           {stores.map((store) => (
             <article key={store.id} className="contact-card">
               <p className="font-body text-kicker text-signal uppercase">
@@ -59,6 +58,11 @@ export async function ContactPreview() {
               </p>
               <p className="mt-2 text-body-md font-semibold text-ice">{store.name}</p>
               <p className="text-body-md text-mute">{store.street}</p>
+              {store.phones[0] ? (
+                <a href={store.phones[0].href} className="contact-card-link">
+                  {store.phones[0].display}
+                </a>
+              ) : null}
             </article>
           ))}
         </div>

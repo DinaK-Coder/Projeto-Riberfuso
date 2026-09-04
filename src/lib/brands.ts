@@ -33,6 +33,18 @@ export function brandAlt(brand: Brand): string {
   return `${brand.name}. ${brand.classification}`;
 }
 
+export function getBrand(id: string) {
+  return brands.find((brand) => brand.id === id);
+}
+
+export function brandPageHref(brand: Brand) {
+  return `/marca/${brand.id}`;
+}
+
+export function brandSearchTerm(brand: Brand) {
+  return brand.title ?? brand.name;
+}
+
 export const brands: Brand[] = [
   {
     id: "bosch",

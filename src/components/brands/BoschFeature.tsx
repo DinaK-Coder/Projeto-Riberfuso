@@ -21,7 +21,7 @@ export function BoschFeature({ brand, reducedMotion }: BoschFeatureProps) {
       />
 
       <div className="relative flex flex-col gap-6 px-6 py-7 pl-7 sm:px-8 sm:py-8 sm:pl-9 lg:flex-row lg:items-center lg:gap-12 lg:px-10 lg:py-9 lg:pl-11">
-        <div className="flex h-40 w-full max-w-[20.5rem] shrink-0 items-center justify-center bg-white px-5 shadow-[0_18px_40px_rgba(0,0,0,0.35)] ring-1 ring-signal/30 sm:h-44 sm:max-w-[22rem]">
+        <div className="flex h-40 w-full max-w-[20.5rem] shrink-0 items-center justify-center bg-[#e7eaf1] px-5 shadow-[0_18px_40px_rgba(0,0,0,0.35)] ring-1 ring-black/10 sm:h-44 sm:max-w-[22rem]">
           <BrandLogo brand={brand} featured />
         </div>
 

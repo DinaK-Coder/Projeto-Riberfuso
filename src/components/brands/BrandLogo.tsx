@@ -185,8 +185,8 @@ export function BrandLogo({ brand, featured = false }: BrandLogoProps) {
     : "flex h-full w-full items-center justify-center px-2 py-1.5";
 
   const imageClass = featured
-    ? "max-h-[6.5rem] max-w-[18.5rem] h-auto w-auto object-contain object-center"
-    : "h-[3.85rem] w-auto max-w-[94%] object-contain object-center";
+    ? "max-h-[6.5rem] max-w-[18.5rem] h-auto w-auto object-contain object-center drop-shadow-[0_1px_1px_rgba(15,22,36,0.35)]"
+    : "h-[3.85rem] w-auto max-w-[94%] object-contain object-center drop-shadow-[0_1px_1px_rgba(15,22,36,0.35)]";
 
   const labelClass =
     "brand-wordmark font-display font-semibold tracking-[0.08em] uppercase " +

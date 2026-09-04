@@ -38,44 +38,26 @@ export function VideoThumb({
     });
   };
 
-  const photo = (
-    <Image
-      key={src}
-      src={src}
-      alt={alt}
-      fill
-      sizes={sizes}
-      priority={priority}
-      className="video-thumb-photo"
-      onError={bump}
-      onLoad={(event) => {
-        if (event.currentTarget.naturalWidth <= 120) bump();
-      }}
-    />
-  );
-
   return (
     <span
       className={`video-thumb ${video.isShort ? "is-short" : ""} ${className}`.trim()}
     >
       {failed ? (
         <span className="video-thumb-empty">Capa indisponível</span>
-      ) : video.isShort ? (
-        <>
-          <Image
-            key={`${src}-blur`}
-            src={src}
-            alt=""
-            fill
-            sizes={sizes}
-            priority={priority}
-            className="video-thumb-blur"
-            aria-hidden
-          />
-          <span className="video-thumb-portrait">{photo}</span>
-        </>
       ) : (
-        photo
+        <Image
+          key={src}
+          src={src}
+          alt={alt}
+          fill
+          sizes={sizes}
+          priority={priority}
+          className="video-thumb-photo"
+          onError={bump}
+          onLoad={(event) => {
+            if (event.currentTarget.naturalWidth <= 120) bump();
+          }}
+        />
       )}
     </span>
   );

@@ -41,6 +41,7 @@ export const categories: Category[] = [
     productCount: 747,
     examples: ["Porca sextavada", "Arruela", "Anel elástico"],
     showcaseSize: "medium",
+    catalogQuery: "PORCA",
   },
   {
     id: "ferramentas-manuais",
@@ -64,6 +65,7 @@ export const categories: Category[] = [
     productCount: 118,
     examples: ["Furadeira", "Parafusadeira", "Esmerilhadeira"],
     showcaseSize: "compact",
+    catalogQuery: "FURADEIRA",
   },
   {
     id: "maquinas",
@@ -109,6 +111,7 @@ export const categories: Category[] = [
     productCount: 103,
     examples: ["Disco de corte", "Disco flap", "Lixa"],
     showcaseSize: "compact",
+    catalogQuery: "DISCO",
   },
   {
     id: "acessorios",
@@ -120,6 +123,7 @@ export const categories: Category[] = [
     productCount: 300,
     examples: ["Abraçadeira", "Broca", "Adaptador"],
     showcaseSize: "medium",
+    catalogQuery: "BROCA",
   },
   {
     id: "equipamentos-profissionais",

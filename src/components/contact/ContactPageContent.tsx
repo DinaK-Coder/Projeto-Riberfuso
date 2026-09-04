@@ -47,7 +47,7 @@ export async function ContactPageContent() {
               Nossas lojas
             </h2>
             <p className="mt-3 text-body-md text-mute">
-              Duas unidades em Poços de Caldas. Use “Ver rota” para abrir o Google
+              Duas unidades em Poços de Caldas. Use “Traçar rota” para abrir o Google
               Maps no endereço da unidade desejada.
             </p>
             <div className="store-grid mt-8">

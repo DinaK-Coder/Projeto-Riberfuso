@@ -114,7 +114,7 @@ export function BrandPlate({
           resetMedia();
         }
       }}
-      className={`relative flex cursor-pointer items-center justify-center overflow-hidden border border-white/10 bg-[#f3f4f7] text-[#1A1C20] transition-[opacity,border-color,box-shadow] duration-300 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-steel focus-visible:outline-none ${
+      className={`relative flex cursor-pointer items-center justify-center overflow-hidden border border-black/15 bg-[#e7eaf1] text-[#1A1C20] transition-[opacity,border-color,box-shadow] duration-300 focus-visible:z-10 focus-visible:ring-2 focus-visible:ring-signal focus-visible:ring-offset-2 focus-visible:ring-offset-steel focus-visible:outline-none ${
         compact ? "h-[6.5rem] w-full shrink-0" : "aspect-[5/3] w-full min-w-0"
       } ${active ? "z-10 border-signal/80 shadow-[0_0_0_1px_#e83038]" : "z-0"} ${dimmed ? "opacity-[0.42]" : "opacity-100"}`}
       style={{

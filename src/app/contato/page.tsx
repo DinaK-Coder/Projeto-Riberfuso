@@ -5,8 +5,9 @@ import { SiteHeader } from "@/components/layout/SiteHeader";
 import { site } from "@/lib/site";
 
 export const metadata: Metadata = {
-  title: `Contato | ${site.name}`,
+  title: "Contato em Poços de Caldas",
   description: `Fale com a ${site.name} em ${site.city}. WhatsApp, telefone e rotas para a Matriz Vila Nova e a Filial Centro.`,
+  alternates: { canonical: "/contato" },
 };
 
 export default function ContatoPage() {

@@ -1,36 +1,21 @@
 "use client";
 
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
-import gsap from "gsap";
 import { useRouter, useSearchParams } from "next/navigation";
 import { CATALOG_SHORTCUTS } from "@/lib/catalog-shortcuts";
 import { buildCatalogUrl, parseCatalogUrl } from "@/lib/catalog-url";
 import {
-  CATALOG_PDF_HREF,
   PAGE_SIZE,
   categoryLabel,
   searchCatalog,
-  whatsappConsultUrl,
   whatsappNotFoundUrl,
   type CatalogPayload,
   type CatalogProduct,
   type CatalogSearchMode,
 } from "@/lib/catalog";
 import { prefersReducedMotion } from "@/lib/prefers-motion";
-
-function DownloadIcon() {
-  return (
-    <svg viewBox="0 0 24 24" className="h-4 w-4" fill="none" aria-hidden>
-      <path
-        d="M12 4v10m0 0 4-4m-4 4-4-4M5 18h14"
-        stroke="currentColor"
-        strokeWidth="1.5"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
+import { AddToQuoteButton } from "@/components/quote/AddToQuoteButton";
+import { CatalogDownloadButton } from "./CatalogDownloadButton";
 
 function CodeHighlight({ code, query }: { code: string; query: string }) {
   const digits = query.replace(/\D/g, "");
@@ -66,24 +51,12 @@ function CatalogDownloadSection() {
         Prefere consultar o catálogo completo?
       </h2>
       <p className="mt-3 max-w-2xl text-body-md text-mute">
-        Baixe o catálogo da Riberfuso e consulte nossa linha de produtos com calma, no
-        formato tradicional.
+        Baixe o catálogo em PDF da Riberfuso e consulte a lista completa de produtos
+        com calma, no formato tradicional.
       </p>
-      {CATALOG_PDF_HREF ? (
-        <a
-          href={CATALOG_PDF_HREF}
-          download
-          className="mt-6 inline-flex min-h-12 items-center gap-2 border border-ice/25 bg-void px-5 font-body text-[0.8125rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:border-signal hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
-        >
-          <DownloadIcon />
-          Baixar catálogo completo — PDF
-        </a>
-      ) : (
-        <p className="mt-6 text-[0.875rem] text-mute">
-          O PDF oficial estará disponível em breve nesta página. Enquanto isso, utilize a
-          busca acima ou fale com nossa equipe pelo WhatsApp.
-        </p>
-      )}
+      <div className="mt-6">
+        <CatalogDownloadButton />
+      </div>
     </aside>
   );
 }
@@ -144,42 +117,48 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
   const [query, setQuery] = useState(initialParams.q);
   const [categoryId, setCategoryId] = useState(initialParams.categoria);
   const [page, setPage] = useState(1);
-  const panelRef = useRef<HTMLDivElement>(null);
   const catalogTopRef = useRef<HTMLDivElement>(null);
-  const prevMode = useRef(mode);
   const scrollAfterPageChange = useRef(false);
   const urlReady = useRef(false);
 
   const deferredQuery = useDeferredValue(query);
-  const activeQuery = mode === "code" ? query.trim() : deferredQuery.trim();
-  const isSearching = mode === "description" && query.trim() !== deferredQuery.trim();
+  const urlQuery = query.trim();
+  const activeQuery = mode === "code" ? urlQuery : deferredQuery.trim();
+  const isSearching = mode === "description" && urlQuery !== deferredQuery.trim();
   const hasQuery = activeQuery.length > 0;
   const hasCategory = categoryId.length > 0;
   const categoryName = hasCategory ? categoryLabel(categoryId) : "";
+  const syncedHref = useRef<string | null>(null);
 
   useEffect(() => {
     const next = parseCatalogUrl(searchParams);
+    const incoming = buildCatalogUrl({
+      q: next.q,
+      mode: next.mode,
+      categoria: next.categoria,
+    });
+
+    if (syncedHref.current === incoming) {
+      urlReady.current = true;
+      return;
+    }
+
     setMode(next.mode);
     setQuery(next.q);
     setCategoryId(next.categoria);
+    syncedHref.current = incoming;
     urlReady.current = true;
   }, [searchParams]);
 
   useEffect(() => {
     if (!urlReady.current) return;
 
-    const current = parseCatalogUrl(searchParams);
-    if (
-      current.q !== activeQuery ||
-      current.mode !== mode ||
-      current.categoria !== categoryId
-    ) {
-      router.replace(
-        buildCatalogUrl({ q: activeQuery, mode, categoria: categoryId }),
-        { scroll: false },
-      );
-    }
-  }, [activeQuery, mode, categoryId, router, searchParams]);
+    const href = buildCatalogUrl({ q: urlQuery, mode, categoria: categoryId });
+    if (syncedHref.current === href) return;
+
+    syncedHref.current = href;
+    router.replace(href, { scroll: false });
+  }, [urlQuery, mode, categoryId, router]);
 
   useEffect(() => {
     let cancelled = false;
@@ -218,20 +197,6 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
       block: "start",
     });
   }, [page]);
-
-  useEffect(() => {
-    if (prevMode.current === mode) return;
-    prevMode.current = mode;
-
-    const panel = panelRef.current;
-    if (!panel || prefersReducedMotion()) return;
-
-    gsap.fromTo(
-      panel,
-      { autoAlpha: 0, y: 6 },
-      { autoAlpha: 1, y: 0, duration: 0.22, ease: "power2.out" },
-    );
-  }, [mode]);
 
   const results = useMemo(
     () =>
@@ -304,7 +269,6 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
       </div>
 
       <div
-        ref={panelRef}
         id="catalog-search-panel"
         role="tabpanel"
         aria-labelledby={`catalog-tab-${mode}`}
@@ -400,8 +364,8 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
         {status === "ready" && !isSearching && (
           <>
             <p role="status" aria-live="polite">
-              {results.length.toLocaleString("pt-BR")} resultado
-              {results.length === 1 ? "" : "s"}
+              {results.length.toLocaleString("pt-BR")}{" "}
+              {results.length === 1 ? "resultado" : "resultados"}
               {hasQuery || hasCategory ? " encontrados" : ""}
               {hasCategory ? ` em ${categoryName}` : ""} ·{" "}
               {total.toLocaleString("pt-BR")} itens no cadastro
@@ -429,7 +393,7 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
         <div className="hidden grid-cols-[7.5rem_minmax(0,1fr)_auto] gap-4 border-b border-ice/10 bg-steel/40 px-4 py-3 text-kicker text-mute uppercase sm:grid">
           <span>Código</span>
           <span>Descrição</span>
-          <span>Consulta</span>
+          <span>Orçamento</span>
         </div>
 
         {status === "ready" && !isSearching && mode === "code" && !hasQuery && !hasCategory && (
@@ -481,14 +445,9 @@ export function ProductCatalog({ whatsappUrl }: { whatsappUrl: string }) {
                   )}
                 </p>
                 <p className="text-body-md text-ice">{product.n}</p>
-                <a
-                  href={whatsappConsultUrl(whatsappUrl, product)}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="inline-flex min-h-10 items-center justify-center border border-ice/20 px-3 font-body text-[0.75rem] font-semibold tracking-[0.08em] text-ice uppercase transition-colors hover:border-signal hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:justify-self-end"
-                >
-                  Consultar
-                </a>
+                <div className="sm:justify-self-end">
+                  <AddToQuoteButton product={product} compact />
+                </div>
               </li>
             ))}
           </ul>

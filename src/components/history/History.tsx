@@ -146,6 +146,7 @@ function AboutPhotoCard({ photo }: { photo: AboutPhoto }) {
           height={photo.height}
           className={`about-photo-img${isArchive ? " about-photo-img--archive" : ""}`}
           sizes="(max-width: 768px) 100vw, (max-width: 1200px) 45vw, 30vw"
+          loading="lazy"
         />
       </div>
       <figcaption className="about-photo-caption">

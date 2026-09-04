@@ -1,5 +1,9 @@
 import type { Metadata, Viewport } from "next";
 import { Outfit } from "next/font/google";
+import { AppProviders } from "@/components/layout/AppProviders";
+import { JsonLd } from "@/components/seo/JsonLd";
+import { SITE_URL, localBusinessJsonLd } from "@/lib/seo";
+import { site } from "@/lib/site";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -19,12 +23,35 @@ export const viewport: Viewport = {
 };
 
 export const metadata: Metadata = {
-  title: "Riberfuso Vila Nova | Parafusos e ferramentas em Poços de Caldas",
+  metadataBase: new URL(SITE_URL),
+  title: {
+    default: "Riberfuso Vila Nova | Parafusos e ferramentas em Poços de Caldas",
+    template: `%s | ${site.name}`,
+  },
   description:
-    "Parafusos, ferramentas e soluções profissionais em Poços de Caldas. Duas unidades: Matriz Vila Nova e Filial Centro. Atacado e varejo desde 1991.",
-  icons: {
-    icon: [{ url: "/brand/marca.png", type: "image/png" }],
-    apple: "/brand/marca.png",
+    "Parafusos, ferramentas e soluções profissionais em Poços de Caldas. Duas unidades: Matriz Vila Nova e Filial Centro. Atacado e varejo desde 1991. Consulte estoque e peça orçamento pelo WhatsApp.",
+  keywords: [
+    "Riberfuso",
+    "Riberfuso Vila Nova",
+    "parafusos Poços de Caldas",
+    "ferramentas Poços de Caldas",
+    "ferragens Poços de Caldas",
+    "atacado e varejo",
+    "Bosch Professional",
+    "loja de parafusos",
+  ],
+  alternates: {
+    canonical: "/",
+  },
+  openGraph: {
+    type: "website",
+    locale: "pt_BR",
+    url: SITE_URL,
+    siteName: site.name,
+    title: "Riberfuso Vila Nova | Parafusos e ferramentas em Poços de Caldas",
+    description:
+      "Atacado e varejo de parafusos, ferramentas e máquinas em Poços de Caldas desde 1991. Matriz Vila Nova e Filial Centro.",
+    images: [{ url: "/brand/marca.png", alt: site.name }],
   },
 };
 
@@ -44,7 +71,8 @@ export default function RootLayout({
         className={`${outfit.variable} bg-void font-body text-base text-ice antialiased`}
         suppressHydrationWarning
       >
-        {children}
+        <JsonLd data={localBusinessJsonLd()} />
+        <AppProviders>{children}</AppProviders>
       </body>
     </html>
   );

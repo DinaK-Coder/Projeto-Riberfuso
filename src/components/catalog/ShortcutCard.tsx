@@ -29,7 +29,7 @@ export function ShortcutCard({ shortcut }: ShortcutCardProps) {
       </div>
 
       <span className="mt-4 inline-flex items-center gap-1.5 font-body text-[0.6875rem] font-semibold tracking-[0.1em] text-mute uppercase transition-colors group-hover:text-signal">
-        Consultar
+        Consultar estoque
         <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" aria-hidden>
           <path
             d="M3 8h10m0 0L9 4m4 4L9 12"

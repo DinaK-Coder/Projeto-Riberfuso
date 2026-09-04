@@ -1,4 +1,8 @@
-import type { ContactInfo } from "@/lib/contact";
+import {
+  contactLandlines,
+  contactWhatsapps,
+  type ContactInfo,
+} from "@/lib/contact";
 import type { SiteContent } from "@/lib/site";
 
 type ContactChannelsProps = {
@@ -16,28 +20,42 @@ export function ContactChannels({
     variant === "grid"
       ? "grid gap-4 sm:grid-cols-2"
       : "flex flex-col gap-4";
+  const whatsapps = contactWhatsapps(contact);
+  const landlines = contactLandlines(contact);
 
   return (
     <div className={layout}>
       <article className="contact-card">
         <p className="font-body text-kicker text-signal uppercase">WhatsApp</p>
-        <a
-          href={contact.whatsapp.href}
-          target="_blank"
-          rel="noopener noreferrer"
-          className="contact-card-link"
-        >
-          {contact.whatsapp.display}
-        </a>
+        <ul className="mt-1 space-y-2">
+          {whatsapps.map((phone) => (
+            <li key={phone.href}>
+              <p className="text-[0.7rem] font-medium tracking-[0.12em] text-mute uppercase">
+                {phone.unit} · vendas
+              </p>
+              <a
+                href={phone.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="contact-card-link mt-0"
+              >
+                {phone.display}
+              </a>
+            </li>
+          ))}
+        </ul>
         <p className="mt-2 text-body-md text-mute">Orçamentos e atendimento rápido</p>
       </article>
 
       <article className="contact-card">
         <p className="font-body text-kicker text-signal uppercase">Telefone</p>
-        <ul className="space-y-1">
-          {contact.phones.map((phone) => (
+        <ul className="mt-1 space-y-2">
+          {landlines.map((phone) => (
             <li key={phone.href}>
-              <a href={phone.href} className="contact-card-link">
+              <p className="text-[0.7rem] font-medium tracking-[0.12em] text-mute uppercase">
+                {phone.unit}
+              </p>
+              <a href={phone.href} className="contact-card-link mt-0">
                 {phone.display}
               </a>
             </li>
@@ -61,7 +79,15 @@ export function ContactChannels({
             rel="noopener noreferrer"
             className="contact-card-link"
           >
-            {contact.social.instagram.handle}
+            Instagram {contact.social.instagram.handle}
+          </a>
+          <a
+            href={contact.social.facebook.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="contact-card-link"
+          >
+            Facebook {contact.social.facebook.handle}
           </a>
           <a
             href={contact.social.youtube.href}
@@ -69,11 +95,12 @@ export function ContactChannels({
             rel="noopener noreferrer"
             className="contact-card-link"
           >
-            {contact.social.youtube.handle}
+            YouTube {contact.social.youtube.handle}
           </a>
         </div>
         <p className="mt-2 text-body-md text-mute">
-          Instagram e YouTube — bastidores e vídeos do Manual das Ferramentas
+          Instagram, Facebook e YouTube — bastidores e vídeos do Manual das
+          Ferramentas
         </p>
       </article>
 

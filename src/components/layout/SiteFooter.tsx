@@ -65,9 +65,9 @@ export async function SiteFooter() {
                   target="_blank"
                   rel="noopener noreferrer"
                   className="mt-2 inline-flex text-[0.8125rem] font-semibold tracking-[0.06em] text-ice uppercase transition-colors hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
-                  aria-label={`Ver rota para ${store.typeLabel} ${store.name}`}
+                  aria-label={`Traçar rota para ${store.typeLabel} ${store.name}`}
                 >
-                  Ver rota
+                  Traçar rota
                 </a>
               </div>
             ))}
@@ -85,7 +85,15 @@ export async function SiteFooter() {
               rel="noopener noreferrer"
               className="block transition-colors hover:text-signal"
             >
-              {contact.social.instagram.handle}
+              Instagram {contact.social.instagram.handle}
+            </a>
+            <a
+              href={contact.social.facebook.href}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="block transition-colors hover:text-signal"
+            >
+              Facebook {contact.social.facebook.handle}
             </a>
             <a
               href={contact.social.youtube.href}

@@ -35,11 +35,13 @@ export function Catalog() {
         y: 18,
         opacity: 0,
         duration: 0.7,
+        immediateRender: false,
         ease: "power3.out",
         scrollTrigger: {
           trigger: "[data-shortcuts-carousel]",
           start: "top 88%",
           once: true,
+          toggleActions: "play none none none",
         },
       });
 

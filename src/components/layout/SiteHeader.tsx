@@ -1,7 +1,7 @@
-import { getSiteContent } from "@/lib/firebase/content";
+import { getSiteContent, getStores } from "@/lib/firebase/content";
 import { SiteHeaderBar } from "./SiteHeaderBar";
 
 export async function SiteHeader() {
-  const site = await getSiteContent();
-  return <SiteHeaderBar site={site} />;
+  const [site, stores] = await Promise.all([getSiteContent(), getStores()]);
+  return <SiteHeaderBar site={site} stores={stores} />;
 }
