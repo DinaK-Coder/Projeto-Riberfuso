@@ -370,7 +370,7 @@ function BrandInfoPanel({
   return (
     <div
       id="brand-info-panel"
-      className="mt-5 min-h-[8.5rem] overflow-hidden border border-white/8 bg-ink/70 px-5 py-5 sm:min-h-[8rem] sm:px-6 sm:py-6"
+      className="mt-5 min-h-[8.5rem] overflow-hidden border border-ice/10 bg-ink/70 px-5 py-5 sm:min-h-[8rem] sm:px-6 sm:py-6"
       aria-live="polite"
       aria-atomic="true"
     >
@@ -387,7 +387,7 @@ function BrandInfoPanel({
             <p className="font-display text-display-md break-words text-ice">
               {active.name}
             </p>
-            <p className="mt-3 inline-flex max-w-full border border-white/15 px-3 py-1 font-body text-kicker leading-snug break-words text-mute uppercase">
+            <p className="mt-3 inline-flex max-w-full border border-ice/15 px-3 py-1 font-body text-kicker leading-snug break-words text-mute uppercase">
               {active.classification}
             </p>
             <p className="mt-4 max-w-3xl text-body-md break-words text-mute sm:text-body-lg">

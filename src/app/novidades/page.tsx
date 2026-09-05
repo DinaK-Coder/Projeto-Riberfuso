@@ -22,7 +22,7 @@ export default async function NovidadesPage() {
   return (
     <main>
       <SiteHeader />
-      <section className="border-b border-ice/10 bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
+      <section className="page-masthead section-invert bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
         <div className="mx-auto max-w-[90rem]">
           <p className="font-body text-kicker text-signal uppercase">
             Balcão · {content.city}
@@ -43,7 +43,7 @@ export default async function NovidadesPage() {
       <section
         id="ofertas"
         aria-labelledby="ofertas-heading"
-        className="bg-void px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
+        className="section-atmosphere section-atmosphere-flow bg-void px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
       >
         <div className="mx-auto max-w-[90rem]">
           <p className="font-body text-kicker text-signal uppercase">

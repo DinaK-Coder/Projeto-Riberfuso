@@ -16,7 +16,7 @@ gsap.registerPlugin(ScrollTrigger);
 
 export function History({ asPage = false }: { asPage?: boolean }) {
   const sectionRef = useRef<HTMLElement>(null);
-  const Heading = asPage ? "h1" : "h2";
+  const Heading = "h2";
   const headingId = asPage ? "sobre-heading" : "history-heading";
 
   useEffect(() => {
@@ -61,7 +61,7 @@ export function History({ asPage = false }: { asPage?: boolean }) {
       aria-labelledby={headingId}
       className={
         asPage
-          ? "bg-void px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
+          ? "section-atmosphere section-atmosphere-flow bg-void px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
           : "section-atmosphere section-divider-top bg-void px-6 py-20 sm:px-10 lg:px-16 lg:py-24"
       }
     >

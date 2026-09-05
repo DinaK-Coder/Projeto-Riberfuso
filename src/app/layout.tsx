@@ -4,6 +4,7 @@ import { AppProviders } from "@/components/layout/AppProviders";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { SITE_URL, localBusinessJsonLd } from "@/lib/seo";
 import { site } from "@/lib/site";
+import { THEME_COLORS, themeInitScript } from "@/lib/theme";
 import "./globals.css";
 
 const outfit = Outfit({
@@ -19,7 +20,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: "#0f1624",
+  themeColor: THEME_COLORS.dark,
 };
 
 export const metadata: Metadata = {
@@ -64,9 +65,13 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       className="bg-void"
+      data-theme="dark"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >
+      <head>
+        <script dangerouslySetInnerHTML={{ __html: themeInitScript }} />
+      </head>
       <body
         className={`${outfit.variable} bg-void font-body text-base text-ice antialiased`}
         suppressHydrationWarning

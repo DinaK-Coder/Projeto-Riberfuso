@@ -1,7 +1,7 @@
 "use client";
 
 import { useDeferredValue, useEffect, useMemo, useRef, useState } from "react";
-import { CATALOG_SHORTCUTS } from "@/lib/catalog-shortcuts";
+import { CatalogSuggestionCascade } from "./CatalogSuggestionCascade";
 import type { ParsedCatalogUrl } from "@/lib/catalog-url";
 import { useCatalogSearchState } from "./useCatalogSearchState";
 import {
@@ -202,7 +202,7 @@ export function ProductCatalog({
   };
 
   return (
-    <div className="mx-auto max-w-[90rem]">
+    <div className="mx-auto max-w-[90rem]" data-catalog-board>
       <div
         ref={catalogTopRef}
         role="tablist"
@@ -303,25 +303,7 @@ export function ProductCatalog({
       )}
 
       {mode === "description" && (
-        <div className="mt-5">
-          <p className="font-body text-kicker text-mute uppercase">
-            Sugestões de materiais
-          </p>
-          <ul className="mt-2.5 flex flex-wrap gap-2">
-            {CATALOG_SHORTCUTS.map((shortcut) => (
-              <li key={shortcut.abbreviation}>
-                <button
-                  type="button"
-                  title={`Buscar: ${shortcut.abbreviation}`}
-                  onClick={() => applyShortcut(shortcut.abbreviation)}
-                  className="min-h-10 border border-ice/15 px-3 py-2 text-left font-body text-[0.8125rem] font-medium text-ice transition-colors hover:border-signal hover:text-signal focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none"
-                >
-                  {shortcut.description}
-                </button>
-              </li>
-            ))}
-          </ul>
-        </div>
+        <CatalogSuggestionCascade onSelect={applyShortcut} />
       )}
 
       <div className="mt-5 flex flex-wrap items-center gap-x-4 gap-y-2 text-[0.875rem] text-mute">
@@ -357,6 +339,7 @@ export function ProductCatalog({
       )}
 
       <div
+        data-catalog-table
         className="mt-6 overflow-hidden border border-ice/10"
         aria-busy={isSearching || status === "loading"}
       >

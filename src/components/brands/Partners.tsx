@@ -43,7 +43,7 @@ export function Partners() {
       ref={sectionRef}
       id="marcas"
       aria-labelledby="partners-heading"
-      className="section-atmosphere section-atmosphere-steel section-divider-top relative overflow-x-hidden bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
+      className="section-atmosphere section-atmosphere-steel section-invert section-divider-top relative overflow-x-hidden bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20"
     >
       <div className="mb-10 max-w-3xl lg:mb-12">
         <p

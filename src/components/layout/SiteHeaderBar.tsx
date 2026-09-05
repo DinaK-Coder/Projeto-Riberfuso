@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import type { SiteContent } from "@/lib/site";
 import { navLinks } from "@/lib/site";
+import { ThemeToggle } from "@/components/theme/ThemeToggle";
 import { storeWhatsapp, type Store } from "@/lib/stores";
 
 type SiteHeaderBarProps = {
@@ -80,7 +81,7 @@ export function SiteHeaderBar({ site, stores }: SiteHeaderBarProps) {
   };
 
   return (
-    <header className="sticky top-0 z-50 bg-void pt-[env(safe-area-inset-top)] shadow-[0_12px_40px_rgba(0,0,0,0.45)]">
+    <header className="site-header sticky top-0 z-50 pt-[env(safe-area-inset-top)]">
       <div className="mx-auto flex w-full max-w-[90rem] items-center gap-3 px-4 py-3 sm:gap-5 sm:px-8 sm:py-3.5 lg:px-12">
         <Link
           href="/"
@@ -98,7 +99,7 @@ export function SiteHeaderBar({ site, stores }: SiteHeaderBarProps) {
             height={321}
             priority
             unoptimized
-            className="h-11 w-auto max-w-[9.5rem] object-contain object-left lg:h-[4.15rem] lg:max-w-[13.5rem] xl:h-[4.35rem] xl:max-w-[15rem]"
+            className="site-logo h-11 w-auto max-w-[9.5rem] object-contain object-left lg:h-[4.15rem] lg:max-w-[13.5rem] xl:h-[4.35rem] xl:max-w-[15rem]"
           />
         </Link>
 
@@ -192,6 +193,7 @@ export function SiteHeaderBar({ site, stores }: SiteHeaderBarProps) {
               />
             </span>
           </button>
+          <ThemeToggle />
         </div>
       </div>
       <div className="h-px w-full bg-gradient-to-r from-transparent via-ice/20 to-transparent" aria-hidden />

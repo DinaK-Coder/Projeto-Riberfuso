@@ -5,15 +5,16 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        /* Extraídas do logo Riberfuso (RF vermelho/azul + fundo navy) */
-        void: "#0F1624",
-        steel: "#1A2744",
-        panel: "#1C2740",
-        ink: "#080D18",
-        ice: "#F7F8FA",
-        mute: "#C5CAD0",
-        signal: "#E83038",
-        brand: "#4F53A4",
+        /* Tokens em RGB para opacity (border-ice/10, bg-void/55) nos dois temas */
+        void: "rgb(var(--void-rgb) / <alpha-value>)",
+        steel: "rgb(var(--steel-rgb) / <alpha-value>)",
+        panel: "rgb(var(--panel-rgb) / <alpha-value>)",
+        ink: "rgb(var(--ink-rgb) / <alpha-value>)",
+        ice: "rgb(var(--ice-rgb) / <alpha-value>)",
+        mute: "rgb(var(--mute-rgb) / <alpha-value>)",
+        signal: "rgb(var(--signal-rgb) / <alpha-value>)",
+        brand: "rgb(var(--brand-rgb) / <alpha-value>)",
+        navy: "rgb(var(--navy-rgb) / <alpha-value>)",
       },
       fontFamily: {
         display: ["var(--font-outfit)", "system-ui", "sans-serif"],

@@ -10,7 +10,7 @@ export async function ContactPageContent() {
   ]);
   return (
     <div className="bg-void">
-      <section className="border-b border-ice/10 bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
+      <section className="page-masthead section-invert bg-steel px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
         <div className="mx-auto max-w-[90rem]">
           <p className="font-body text-kicker text-signal uppercase">
             Contato · {site.city}
@@ -27,7 +27,7 @@ export async function ContactPageContent() {
         </div>
       </section>
 
-      <section className="px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
+      <section className="section-atmosphere section-atmosphere-flow px-6 py-16 sm:px-10 lg:px-16 lg:py-20">
         <div className="mx-auto grid max-w-[90rem] gap-12 lg:grid-cols-[minmax(0,0.95fr)_minmax(0,1.05fr)] lg:gap-14">
           <div>
             <h2 className="font-display text-display-md text-ice uppercase">

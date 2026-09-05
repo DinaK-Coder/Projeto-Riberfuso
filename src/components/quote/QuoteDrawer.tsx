@@ -44,7 +44,7 @@ export function QuoteDrawer() {
     <div className="fixed inset-0 z-[70]" role="dialog" aria-modal="true" aria-labelledby={titleId}>
       <button
         type="button"
-        className="absolute inset-0 bg-ink/70"
+        className="theme-scrim absolute inset-0"
         aria-label="Fechar orçamento"
         onClick={() => setOpen(false)}
       />

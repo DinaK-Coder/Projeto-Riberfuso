@@ -21,7 +21,7 @@ export function CredibilityStrip() {
   return (
     <section
       aria-label="Por que a Riberfuso"
-      className="border-y border-ice/10 bg-steel/40"
+      className="section-invert border-y border-ice/10 bg-steel"
     >
       <ul className="mx-auto grid max-w-[90rem] grid-cols-1 gap-px bg-ice/8 sm:grid-cols-2 lg:grid-cols-4">
         {items.map((item) => (

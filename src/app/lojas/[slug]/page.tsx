@@ -49,7 +49,7 @@ export default async function StorePage({ params }: StorePageProps) {
     <main>
       <JsonLd data={storeJsonLd(store)} />
       <SiteHeader />
-      <section className="border-b border-ice/10 bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
+      <section className="page-masthead section-invert bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
         <div className="mx-auto grid max-w-[90rem] gap-8 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,0.9fr)] lg:items-center">
           <div>
             <p className="font-body text-kicker text-signal uppercase">
@@ -75,7 +75,7 @@ export default async function StorePage({ params }: StorePageProps) {
           </div>
         </div>
       </section>
-      <section className="bg-void px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
+      <section className="section-atmosphere section-atmosphere-flow bg-void px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
         <div className="mx-auto max-w-[36rem]">
           <StoreCard store={store} showPageLink={false} />
         </div>

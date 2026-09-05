@@ -15,7 +15,7 @@ export const HeroPreloader = forwardRef<HTMLDivElement, HeroPreloaderProps>(
     return (
       <div
         ref={ref}
-        className="hero-preloader"
+        className="hero-preloader theme-lock-dark"
         role="status"
         aria-live="polite"
         aria-busy="true"
@@ -30,7 +30,7 @@ export const HeroPreloader = forwardRef<HTMLDivElement, HeroPreloaderProps>(
             decoding="async"
             fetchPriority="high"
             draggable={false}
-            className="hero-preloader-logo"
+            className="hero-preloader-logo site-logo"
             data-hero-preloader-logo
           />
           <div className="hero-preloader-track" aria-hidden>

@@ -43,7 +43,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
   return (
     <main>
       <SiteHeader />
-      <section className="border-b border-ice/10 bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
+      <section className="page-masthead section-invert bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
         <div
           className={
             brand.featured
@@ -52,7 +52,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
           }
         >
           {brand.featured ? (
-            <div className="flex h-44 w-full max-w-[22rem] items-center justify-center bg-[#e7eaf1] px-5 shadow-[0_18px_40px_rgba(0,0,0,0.35)] ring-1 ring-black/10 lg:h-52">
+            <div className="partner-feature-plate flex h-44 w-full max-w-[22rem] items-center justify-center px-5 ring-1 ring-black/10 lg:h-52">
               <BrandLogo brand={brand} featured />
             </div>
           ) : null}
@@ -65,7 +65,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
             <h1 className="font-display text-display-lg mt-3 text-ice uppercase">
               {brand.title ?? brand.name}
             </h1>
-            <p className="mt-3 inline-flex border border-white/15 px-3 py-1 font-body text-kicker text-mute uppercase">
+            <p className="mt-3 inline-flex border border-ice/15 px-3 py-1 font-body text-kicker text-mute uppercase">
               {brand.classification}
             </p>
             <p className="mt-5 max-w-2xl text-body-md text-mute sm:text-body-lg">

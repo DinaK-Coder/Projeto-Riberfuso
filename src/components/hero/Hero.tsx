@@ -398,12 +398,12 @@ export function Hero({ site }: { site: SiteContent }) {
         id="inicio"
         aria-labelledby="hero-heading"
         data-hero-state="pending"
-        className="relative isolate flex min-h-[calc(100svh-var(--site-header-height))] flex-col justify-center overflow-hidden bg-void"
+        className="hero theme-lock-dark relative isolate flex flex-col justify-center overflow-hidden bg-void"
       >
         <div className="pointer-events-none absolute inset-0" aria-hidden>
           <div className="hero-photo-frame absolute inset-0">
             <div className="hero-photo-grid">
-              {HERO_BOSCH_PANELS.map((panel, index) => (
+              {HERO_BOSCH_PANELS.map((panel) => (
                 <div
                   key={panel.src}
                   className="hero-photo-panel"
@@ -414,9 +414,9 @@ export function Hero({ site }: { site: SiteContent }) {
                       src={panel.src}
                       alt=""
                       fill
-                      priority={index < 2}
-                      quality={72}
-                      sizes="(max-width: 768px) 50vw, 25vw"
+                      priority
+                      quality={85}
+                      sizes="(max-width: 1023px) 50vw, 25vw"
                       className={`hero-photo object-cover ${panel.positionClass}`}
                     />
                   </div>
@@ -436,23 +436,10 @@ export function Hero({ site }: { site: SiteContent }) {
           <HeroCopy site={site} />
         </div>
 
-        <div
-          className="hero-scroll pointer-events-none absolute inset-x-0 z-[2] flex flex-col items-center gap-2"
-          data-hero-scroll
-        >
-          <span className="font-body text-[0.6875rem] tracking-[0.2em] text-ice/68 uppercase">
-            Role para explorar
-          </span>
-          <span className="hero-scroll-line" data-hero-scroll-line aria-hidden />
-          <span className="hero-scroll-arrow text-ice/78" aria-hidden>
-            <svg viewBox="0 0 16 20" className="h-4 w-3.5 stroke-current" fill="none">
-              <path
-                d="M8 2v14M3.5 11.5 8 16.5l4.5-5"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
+        <div className="hero-scroll" data-hero-scroll>
+          <span className="hero-scroll-copy">Role para explorar</span>
+          <span className="hero-scroll-mouse" aria-hidden>
+            <span className="hero-scroll-line" data-hero-scroll-line />
           </span>
         </div>
       </section>

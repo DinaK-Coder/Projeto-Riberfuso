@@ -49,7 +49,7 @@ export default async function CatalogoPage({
   return (
     <main>
       <SiteHeader />
-      <section className="border-b border-ice/10 bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
+      <section className="page-masthead section-invert bg-steel px-6 py-14 sm:px-10 lg:px-16 lg:py-16">
         <div className="mx-auto max-w-[90rem]">
           <p className="font-body text-kicker text-signal uppercase">
             Cadastro · {content.city}
@@ -74,7 +74,7 @@ export default async function CatalogoPage({
         </div>
       </section>
 
-      <section className="bg-void px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
+      <section className="section-atmosphere section-atmosphere-flow bg-void px-6 py-12 sm:px-10 lg:px-16 lg:py-16">
         <ProductCatalog
           whatsappUrl={content.whatsapp}
           initialSearch={initialSearch}
