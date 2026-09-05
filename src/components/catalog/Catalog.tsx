@@ -19,40 +19,26 @@ export function Catalog() {
 
     const ctx = gsap.context(() => {
       gsap.from("[data-catalog-kicker], [data-catalog-title]", {
-        y: 24,
+        y: 28,
         opacity: 0,
-        duration: 0.8,
-        stagger: 0.08,
-        ease: "power3.out",
+        duration: 1.35,
+        stagger: 0.16,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: section,
-          start: "top 75%",
+          start: "top 46%",
           once: true,
-        },
-      });
-
-      gsap.from("[data-shortcuts-carousel]", {
-        y: 18,
-        opacity: 0,
-        duration: 0.7,
-        immediateRender: false,
-        ease: "power3.out",
-        scrollTrigger: {
-          trigger: "[data-shortcuts-carousel]",
-          start: "top 88%",
-          once: true,
-          toggleActions: "play none none none",
         },
       });
 
       gsap.from("[data-catalog-cta]", {
-        y: 16,
+        y: 24,
         opacity: 0,
-        duration: 0.65,
-        ease: "power3.out",
+        duration: 1.15,
+        ease: "power2.out",
         scrollTrigger: {
           trigger: "[data-catalog-cta]",
-          start: "top 92%",
+          start: "top 68%",
           once: true,
         },
       });

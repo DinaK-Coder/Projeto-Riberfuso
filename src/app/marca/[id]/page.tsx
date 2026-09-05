@@ -52,7 +52,7 @@ export default async function BrandPage({ params }: BrandPageProps) {
           }
         >
           {brand.featured ? (
-            <div className="partner-feature-plate flex h-44 w-full max-w-[22rem] items-center justify-center px-5 ring-1 ring-black/10 lg:h-52">
+            <div className="partner-feature-plate flex h-36 w-full min-w-0 max-w-[22rem] items-center justify-center overflow-hidden px-3 ring-1 ring-black/10 sm:h-44 sm:px-5 lg:h-52">
               <BrandLogo brand={brand} featured />
             </div>
           ) : null}

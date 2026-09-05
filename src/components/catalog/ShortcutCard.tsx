@@ -17,7 +17,7 @@ export function ShortcutCard({ shortcut }: ShortcutCardProps) {
     <Link
       href={href}
       data-shortcut-card
-      className="group flex h-full min-h-[7.25rem] w-[min(16.25rem,calc(100vw-3.5rem))] shrink-0 flex-col justify-between border border-ice/10 bg-steel/20 px-4 py-4 transition-[border-color,background-color] duration-250 hover:border-signal/40 hover:bg-steel/35 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:min-h-[7.5rem] sm:w-[min(18.5rem,calc(50vw-2.75rem))] sm:px-5 sm:py-5 lg:w-[17rem]"
+      className="group flex h-full min-h-[7.25rem] w-[min(16.25rem,calc(100vw-3.5rem))] shrink-0 flex-col justify-between border border-ice/10 bg-steel/20 px-4 py-4 transition-[border-color,background-color,transform,box-shadow] duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] hover:-translate-y-1 hover:border-signal/40 hover:bg-steel/35 focus-visible:-translate-y-1 focus-visible:ring-2 focus-visible:ring-signal focus-visible:outline-none sm:min-h-[7.5rem] sm:w-[min(18.5rem,calc(50vw-2.75rem))] sm:px-5 sm:py-5 lg:w-[17rem]"
     >
       <div>
         <p className="font-body text-[0.625rem] tracking-[0.14em] text-signal uppercase">
@@ -28,9 +28,14 @@ export function ShortcutCard({ shortcut }: ShortcutCardProps) {
         </h3>
       </div>
 
-      <span className="mt-4 inline-flex items-center gap-1.5 font-body text-[0.6875rem] font-semibold tracking-[0.1em] text-mute uppercase transition-colors group-hover:text-signal">
+      <span className="mt-4 inline-flex items-center gap-1.5 font-body text-[0.6875rem] font-semibold tracking-[0.1em] text-mute uppercase transition-colors duration-200 group-hover:text-signal">
         Consultar estoque
-        <svg viewBox="0 0 16 16" className="h-3 w-3" fill="none" aria-hidden>
+        <svg
+          viewBox="0 0 16 16"
+          className="h-3 w-3 transition-transform duration-500 ease-[cubic-bezier(0.16,1,0.3,1)] group-hover:translate-x-1 group-focus-visible:translate-x-1"
+          fill="none"
+          aria-hidden
+        >
           <path
             d="M3 8h10m0 0L9 4m4 4L9 12"
             stroke="currentColor"

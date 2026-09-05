@@ -181,11 +181,11 @@ export function BrandLogo({ brand, featured = false }: BrandLogoProps) {
   }, [brand.assetReady, brand.logoSrc, cacheKey, matte]);
 
   const well = featured
-    ? "flex h-full w-full items-center justify-center"
+    ? "flex h-full w-full min-w-0 items-center justify-center px-3 py-3 sm:px-4"
     : "flex h-full w-full items-center justify-center px-2 py-1.5";
 
   const imageClass = featured
-    ? "max-h-[6.5rem] max-w-[18.5rem] h-auto w-auto object-contain object-center drop-shadow-[0_1px_1px_rgba(15,22,36,0.35)]"
+    ? "max-h-[4.75rem] w-auto max-w-full object-contain object-center drop-shadow-[0_1px_1px_rgba(15,22,36,0.35)] sm:max-h-[6.5rem]"
     : "h-[3.85rem] w-auto max-w-[94%] object-contain object-center drop-shadow-[0_1px_1px_rgba(15,22,36,0.35)]";
 
   const labelClass =

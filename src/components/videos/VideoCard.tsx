@@ -22,7 +22,7 @@ export function VideoCard({ video }: VideoCardProps) {
         <VideoThumb
           video={video}
           alt=""
-          sizes="(max-width: 767px) 70vw, (max-width: 1023px) 40vw, 18vw"
+          sizes="(max-width: 639px) 46vw, (max-width: 1023px) 30vw, 18vw"
         />
         <span className="video-media-overlay" aria-hidden />
         <VideoPlayButton

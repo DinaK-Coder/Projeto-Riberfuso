@@ -44,6 +44,9 @@ export function Hero({ site }: { site: SiteContent }) {
       const diffs = gsap.utils.toArray<HTMLElement>("[data-hero-diff]");
       const scrollHint = section.querySelector<HTMLElement>("[data-hero-scroll]");
       const scrollLine = section.querySelector<HTMLElement>("[data-hero-scroll-line]");
+      const scrollChevron = section.querySelector<HTMLElement>(
+        "[data-hero-scroll-chevron]",
+      );
       const copy = section.querySelector<HTMLElement>(".hero-copy");
       const slogan = section.querySelector<HTMLElement>("#hero-heading");
 
@@ -58,6 +61,7 @@ export function Hero({ site }: { site: SiteContent }) {
           lead,
           scrollHint,
           scrollLine,
+          scrollChevron,
         ].filter(Boolean));
         gsap.set(panels, { clipPath: "inset(0 0% 0 0)", clearProps: "clipPath" });
         gsap.set(photos, { clearProps: "transform" });
@@ -68,6 +72,7 @@ export function Hero({ site }: { site: SiteContent }) {
           { clearProps: "all" },
         );
         if (scrollLine) gsap.set(scrollLine, { clearProps: "transform" });
+        if (scrollChevron) gsap.set(scrollChevron, { clearProps: "transform" });
         section.dataset.heroState = "ready";
         setShowPreloader(false);
       };
@@ -88,8 +93,8 @@ export function Hero({ site }: { site: SiteContent }) {
         // Drop CSS pending rules BEFORE GSAP owns transforms (avoids slogan stuck)
         section.dataset.heroState = "animating";
 
-        gsap.set(panels, { clipPath: "inset(0 100% 0 0)" });
-        gsap.set(photos, { scale: 1.04, xPercent: 1 });
+        gsap.set(panels, { clipPath: "inset(0 0 100% 0)" });
+        gsap.set(photos, { scale: 1.04, yPercent: -3 });
         gsap.set([kicker, lead, scrollHint].filter(Boolean), {
           autoAlpha: 0,
           y: 12,
@@ -113,6 +118,15 @@ export function Hero({ site }: { site: SiteContent }) {
                 scaleY: 0.35,
                 duration: 0.9,
                 ease: "power2.inOut",
+                yoyo: true,
+                repeat: -1,
+              });
+            }
+            if (scrollChevron && isMobile) {
+              gsap.to(scrollChevron, {
+                y: 7,
+                duration: 0.95,
+                ease: "power1.inOut",
                 yoyo: true,
                 repeat: -1,
               });
@@ -162,7 +176,7 @@ export function Hero({ site }: { site: SiteContent }) {
         master.to(
           panels,
           {
-            clipPath: "inset(0 0% 0 0)",
+            clipPath: "inset(0 0 0% 0)",
             duration: isMobile ? 0.7 : 0.95,
             stagger: 0.08,
             ease: "power3.inOut",
@@ -173,7 +187,7 @@ export function Hero({ site }: { site: SiteContent }) {
           photos,
           {
             scale: 1,
-            xPercent: 0,
+            yPercent: 0,
             duration: isMobile ? 0.9 : 1.15,
             stagger: 0.08,
             ease: "power2.out",
@@ -440,6 +454,24 @@ export function Hero({ site }: { site: SiteContent }) {
           <span className="hero-scroll-copy">Role para explorar</span>
           <span className="hero-scroll-mouse" aria-hidden>
             <span className="hero-scroll-line" data-hero-scroll-line />
+          </span>
+          <span className="hero-scroll-chevron" aria-hidden data-hero-scroll-chevron>
+            <svg viewBox="0 0 24 28" className="h-7 w-6" fill="none">
+              <path
+                d="M5 7.5 12 14l7-6.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+              <path
+                d="M5 15.5 12 22l7-6.5"
+                stroke="currentColor"
+                strokeWidth="1.6"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
           </span>
         </div>
       </section>

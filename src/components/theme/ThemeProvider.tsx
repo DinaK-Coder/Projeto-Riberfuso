@@ -9,11 +9,10 @@ import {
   useState,
 } from "react";
 import {
+  DEFAULT_THEME,
   THEME_STORAGE_KEY,
   applyTheme,
-  readStoredTheme,
   resolveTheme,
-  themeFromSystem,
   type Theme,
 } from "@/lib/theme";
 
@@ -26,24 +25,12 @@ type ThemeContextValue = {
 const ThemeContext = createContext<ThemeContextValue | null>(null);
 
 export function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setThemeState] = useState<Theme>("dark");
+  const [theme, setThemeState] = useState<Theme>(DEFAULT_THEME);
 
   useEffect(() => {
     const resolved = resolveTheme();
     setThemeState(resolved);
     applyTheme(resolved);
-  }, []);
-
-  useEffect(() => {
-    const media = window.matchMedia("(prefers-color-scheme: light)");
-    const onChange = () => {
-      if (readStoredTheme()) return;
-      const next = themeFromSystem();
-      setThemeState(next);
-      applyTheme(next);
-    };
-    media.addEventListener("change", onChange);
-    return () => media.removeEventListener("change", onChange);
   }, []);
 
   const setTheme = useCallback((next: Theme) => {

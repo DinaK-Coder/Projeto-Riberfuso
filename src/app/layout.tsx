@@ -20,7 +20,7 @@ export const viewport: Viewport = {
   width: "device-width",
   initialScale: 1,
   viewportFit: "cover",
-  themeColor: THEME_COLORS.dark,
+  themeColor: THEME_COLORS.light,
 };
 
 export const metadata: Metadata = {
@@ -65,7 +65,7 @@ export default function RootLayout({
     <html
       lang="pt-BR"
       className="bg-void"
-      data-theme="dark"
+      data-theme="light"
       data-scroll-behavior="smooth"
       suppressHydrationWarning
     >

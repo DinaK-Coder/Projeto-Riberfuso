@@ -43,13 +43,22 @@ export function SiteHeaderBar({ site, stores }: SiteHeaderBarProps) {
     const onKey = (event: KeyboardEvent) => {
       if (event.key === "Escape") setOpen(false);
     };
+    const onResize = () => {
+      if (window.matchMedia("(min-width: 1024px)").matches) {
+        setOpen(false);
+      }
+    };
 
     document.addEventListener("keydown", onKey);
+    window.addEventListener("resize", onResize);
     const previousOverflow = document.body.style.overflow;
+    document.documentElement.classList.add("nav-lock");
     document.body.style.overflow = "hidden";
 
     return () => {
       document.removeEventListener("keydown", onKey);
+      window.removeEventListener("resize", onResize);
+      document.documentElement.classList.remove("nav-lock");
       document.body.style.overflow = previousOverflow;
     };
   }, [open]);
@@ -81,7 +90,12 @@ export function SiteHeaderBar({ site, stores }: SiteHeaderBarProps) {
   };
 
   return (
-    <header className="site-header sticky top-0 z-50 pt-[env(safe-area-inset-top)]">
+    <>
+    <header
+      className={`site-header z-50 pt-[env(safe-area-inset-top)] ${
+        open ? "fixed inset-x-0 top-0" : "sticky top-0"
+      }`}
+    >
       <div className="mx-auto flex w-full max-w-[90rem] items-center gap-3 px-4 py-3 sm:gap-5 sm:px-8 sm:py-3.5 lg:px-12">
         <Link
           href="/"
@@ -201,7 +215,7 @@ export function SiteHeaderBar({ site, stores }: SiteHeaderBarProps) {
       {open ? (
         <div
           id={panelId}
-          className="border-b border-ice/10 bg-ink lg:hidden"
+          className="max-h-[calc(100dvh-var(--site-header-height))] overflow-y-auto overscroll-contain border-b border-ice/10 bg-ink lg:hidden"
         >
           <nav aria-label="Menu do site" className="px-4 py-4 pb-[max(1rem,env(safe-area-inset-bottom))]">
             <ul className="flex flex-col">
@@ -243,5 +257,14 @@ export function SiteHeaderBar({ site, stores }: SiteHeaderBarProps) {
         </div>
       ) : null}
     </header>
+    {open ? (
+      <button
+        type="button"
+        className="fixed inset-0 z-40 bg-void/50 lg:hidden"
+        aria-label="Fechar menu"
+        onClick={() => setOpen(false)}
+      />
+    ) : null}
+    </>
   );
 }
